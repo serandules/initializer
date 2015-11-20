@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 var mongourl = 'mongodb://localhost/serandives';
 
-var plugins = ['roles', 'users', 'clients'];
+var plugins = ['roles', 'users', 'clients', 'configs'];
 
 mongoose.connect(mongourl);
 
