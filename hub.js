@@ -4,7 +4,11 @@ var mongoose = require('mongoose');
 
 var mongourl = 'mongodb://localhost/hub';
 
-var plugins = ['roles', 'users', 'clients', 'configs'];
+var plugins = ['roles', 'users', 'clients', 'configs', 'domains'];
+
+global.hub = function (model) {
+    return require('./node_modules/hub/models/' + model)
+}
 
 mongoose.connect(mongourl);
 

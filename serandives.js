@@ -6,6 +6,10 @@ var mongourl = 'mongodb://localhost/serandives';
 
 var plugins = ['roles', 'users', 'clients', 'configs'];
 
+global.hub = function (model) {
+    return require('./node_modules/hub/models/' + model)
+}
+
 mongoose.connect(mongourl);
 
 var db = mongoose.connection;
