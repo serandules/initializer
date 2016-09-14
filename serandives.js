@@ -2,7 +2,7 @@ var log = require('logger')('initializer');
 var async = require('async');
 var mongoose = require('mongoose');
 
-var mongourl = 'mongodb://localhost/serandives';
+var mongourl = 'mongodb://serand:AmarIndra@ds055594.mlab.com:55594/serandives';
 
 var plugins = ['roles', 'users', 'clients', 'configs'];
 
