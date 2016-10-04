@@ -2,9 +2,9 @@ var log = require('logger')('initializer');
 var async = require('async');
 var mongoose = require('mongoose');
 
-var mongourl = 'mongodb://serand:AmarIndra@ds055594.mlab.com:55594/serandives';
+var mongourl = 'mongodb://127.0.0.1:27017/serandives';
 
-var plugins = ['roles', 'users', 'clients', 'configs'];
+var plugins = ['roles', 'users', 'clients', 'configs', 'vehicles'];
 
 global.hub = function (model) {
     return require('./node_modules/hub/models/' + model)
