@@ -1,11 +1,7 @@
-var log = require('logger')('initializer:hub:configs');
+var log = require('logger')('initializer:serandives:configs');
+var nconf = require('nconf');
 var async = require('async');
-var Config = hub('config');
-
-var facebookId = '911082242310402';
-var facebookSecret = '5ea5fa59190b186a449a47048faa00b1';
-var amazonKey = 'AKIAJGHSC4WKREUUKGBQ';
-var amazonSecret = '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';
+var Config = require('model-configs');
 
 var create = function (ctx, config, done) {
     var name = config.name;
@@ -39,28 +35,12 @@ var create = function (ctx, config, done) {
 module.exports = function (ctx, done) {
     var configs = [];
     var serandivesId = ctx.clients.serandives.id;
-    configs.push({
-        name: 'facebook',
-        value: {
-            app: {
-                id: facebookId,
-                secret: facebookSecret
-            }
-        }
-    });
-    configs.push({
-        name: 'amazon',
-        value: {
-            aws: {
-                key: amazonKey,
-                secret: amazonSecret
-            }
-        }
-    });
+    var facebookId = nconf.get('facebookId');
     configs.push({
         name: 'boot',
         value: {
             clients: {
+                facebook: nconf.get('facebookId'),
                 serandives: serandivesId
             }
         }

@@ -1,5 +1,5 @@
 var log = require('logger')('initializer:serandives:clients');
-var Client = require('client');
+var Client = require('model-clients');
 
 var email = 'admin@serandives.com';
 

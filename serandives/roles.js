@@ -14,7 +14,11 @@ var create = function (ctx, done) {
             return done(err);
         }
         if (role) {
-            return done();
+            log.info('roles already exist');
+            ctx.roles = {
+                admin: role.id
+            };
+            return done(false, ctx);
         }
         Role.create({
             name: name,

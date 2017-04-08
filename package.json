@@ -14,7 +14,7 @@
     "user": "serandules/user#master",
     "role": "serandules/role#master",
     "client": "serandules/client#master",
-    "config": "serandules/config#master",
+    "model-configs": "serandules/model-configs#master",
     "token": "serandules/token#master"
   },
   "repository": {
