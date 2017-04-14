@@ -1,5 +1,6 @@
-var log = require('logger')('initializer:serandives:clients');
+var log = require('logger')('initializers:serandives:clients');
 var Client = require('model-clients');
+var User = require('model-users');
 
 var email = 'admin@serandives.com';
 
@@ -10,21 +11,14 @@ var to = [
     'https://autos.serandives.com/signin/serandives'
 ];
 
-var create = function (ctx, done) {
-    Client.findOne({
-        name: name
-    }).exec(function (err, client) {
+module.exports = function (done) {
+    User.findOne({email: email}, function (err, user) {
         if (err) {
             return done(err);
         }
-
-        if (client) {
-            ctx.clients = {};
-            ctx.clients[name] = client;
-            return done(false, ctx);
+        if (!user) {
+            return done('No user with email %s can be found.', email);
         }
-
-        var user = ctx.users[email];
         Client.create({
             name: name,
             user: user,
@@ -39,13 +33,7 @@ var create = function (ctx, done) {
                 return done(err);
             }
             log.info('clients created successfully');
-            ctx.clients = {};
-            ctx.clients[name] = client;
-            done(false, ctx);
+            done();
         });
     });
-};
-
-module.exports = function (ctx, done) {
-    create(ctx, done);
 };

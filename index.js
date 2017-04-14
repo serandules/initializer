@@ -1,22 +1,52 @@
-var log = require('logger')('initializer');
+var log = require('logger')('initializers');
 var nconf = require('nconf');
 var async = require('async');
 var mongoose = require('mongoose');
+var fs = require('fs');
+
+var Config = require('model-configs');
 
 var env = nconf.get('env');
 
-var plugins = ['roles', 'users', 'clients', 'configs', 'vehicles'];
-
 exports.init = function (done) {
-    var tasks = [];
-    plugins.forEach(function (plugin) {
-        tasks.push(function () {
-            var args = Array.prototype.slice.call(arguments);
-            var done = args.pop();
-            var ctx = args.pop() || {};
-            log.info('plugin : %s', plugin);
-            require('./serandives/' + plugin)(ctx, done);
+    Config.findOne({name: 'initializers'}).exec(function (err, config) {
+        if (err) {
+            return done(err);
+        }
+        var initializers = config ? JSON.parse(config.value) : [];
+        var index = {};
+        initializers.forEach(function (initializer) {
+            index[initializer] = true;
+        });
+        fs.readdir(__dirname + '/serandives', function (err, paths) {
+            if (err) {
+                return done(err);
+            }
+            var run = [];
+            paths.sort().forEach(function (path) {
+                if (!index[path]) {
+                    run.push(path);
+                }
+            });
+            var ran = [];
+            async.whilst(function () {
+                return run.length;
+            }, function (executed) {
+                var path = run.shift();
+                require('./serandives/' + path)(function (err) {
+                    if (err) {
+                        return executed(err);
+                    }
+                    ran.push(path);
+                    executed();
+                });
+            }, function (err) {
+                if (err) {
+                    log.error('error executing initializers: %e', err);
+                }
+                initializers = initializers.concat(ran);
+                Config.update({name: 'initializers'}, {value: JSON.stringify(initializers)}, {upsert: true}, done);
+            });
         });
     });
-    async.waterfall(tasks, done);
 };

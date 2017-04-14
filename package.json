@@ -9,6 +9,7 @@
   "dependencies": {
     "mongoose": "4.*",
     "async": "*",
+    "lodash": "^4.17.4",
     "logger": "serandules/logger#master",
     "hub": "serandules/hub#master",
     "user": "serandules/user#master",
