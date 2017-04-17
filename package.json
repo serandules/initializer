@@ -1,6 +1,6 @@
 {
-  "name": "initializer",
-  "description": "initializer",
+  "name": "initializers",
+  "description": "initializers",
   "version": "0.0.0",
   "author": {
     "name": "serandives",
@@ -11,12 +11,11 @@
     "async": "*",
     "lodash": "^4.17.4",
     "logger": "serandules/logger#master",
-    "hub": "serandules/hub#master",
-    "user": "serandules/user#master",
-    "role": "serandules/role#master",
-    "client": "serandules/client#master",
+    "model-users": "serandules/model-users#master",
+    "model-roles": "serandules/model-roles#master",
+    "model-clients": "serandules/model-clients#master",
     "model-configs": "serandules/model-configs#master",
-    "token": "serandules/token#master"
+    "model-tokens": "serandules/model-tokens#master"
   },
   "repository": {
     "type": "git",
