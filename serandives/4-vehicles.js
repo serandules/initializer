@@ -1,8 +1,8 @@
 var log = require('logger')('initializers:serandives:makes');
 var async = require('async');
 
-var VehicleMake = require('vehicle-make');
-var VehicleModel = require('vehicle-model');
+var VehicleMake = require('model-vehicle-makes');
+var VehicleModel = require('model-vehicle-models');
 
 var makes = [
     {title: 'Honda', country: 'Japan', models: [{type: 'suv', title: 'Vezel'}, {type: 'car', title: 'Grace'}]},
