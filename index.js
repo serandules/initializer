@@ -33,7 +33,13 @@ exports.init = function (done) {
                 return run.length;
             }, function (executed) {
                 var path = run.shift();
-                require('./serandives/' + path)(function (err) {
+                var initializer;
+                try {
+                    initializer = require('./serandives/' + path);
+                } catch (e) {
+                    return executed(e)
+                }
+                initializer(function (err) {
                     if (err) {
                         return executed(err);
                     }
