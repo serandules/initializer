@@ -48,6 +48,7 @@ exports.init = function (done) {
                 });
             }, function (err) {
                 if (err) {
+                    console.error(err)
                     log.error('error executing initializers: %e', err);
                 }
                 initializers = initializers.concat(ran);
