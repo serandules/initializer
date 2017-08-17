@@ -1,15 +1,15 @@
 var log = require('logger')('initializers:serandives:configs');
 var nconf = require('nconf');
 var async = require('async');
-var Config = require('model-configs');
-var Client = require('model-clients');
+var Configs = require('model-configs');
+var Clients = require('model-clients');
 
 var clientName = 'serandives';
 
-var create = function (config, added) {
+var create = function (user, config, added) {
     var name = config.name;
     var value = config.value;
-    Config.findOne({
+    Configs.findOne({
         name: name
     }).exec(function (err, config) {
         if (err) {
@@ -18,7 +18,8 @@ var create = function (config, added) {
         if (config) {
             return added();
         }
-        Config.create({
+        Configs.create({
+            user: user,
             name: name,
             value: JSON.stringify(value)
         }, function (err, config) {
@@ -33,7 +34,7 @@ var create = function (config, added) {
 
 module.exports = function (done) {
     var configs = [];
-    Client.findOne({name: clientName}).exec(function (err, client) {
+    Clients.findOne({name: clientName}).exec(function (err, client) {
         if (err) {
             return done(err);
         }
@@ -43,6 +44,7 @@ module.exports = function (done) {
         var facebookId = nconf.get('facebookId');
         var serandivesId = client.id;
         configs.push({
+            user: client.user,
             name: 'boot',
             value: {
                 clients: {
@@ -52,7 +54,7 @@ module.exports = function (done) {
             }
         });
         async.each(configs, function (config, added) {
-            create(config, added);
+            create(client.user, config, added);
         }, done);
     });
 };

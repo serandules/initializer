@@ -1,6 +1,6 @@
 var log = require('logger')('initializers:serandives:clients');
-var Client = require('model-clients');
-var User = require('model-users');
+var Clients = require('model-clients');
+var Users = require('model-users');
 
 var email = 'admin@serandives.com';
 
@@ -12,14 +12,14 @@ var to = [
 ];
 
 module.exports = function (done) {
-    User.findOne({email: email}, function (err, user) {
+    Users.findOne({email: email}, function (err, user) {
         if (err) {
             return done(err);
         }
         if (!user) {
             return done('No user with email %s can be found.', email);
         }
-        Client.create({
+        Clients.create({
             name: name,
             user: user,
             to: to,

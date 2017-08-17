@@ -9,12 +9,7 @@ var description = 'Role of serandives.com admins';
 module.exports = function (done) {
     Role.create({
         name: name,
-        description: description,
-        has: {
-            '*': {
-                '': ['*']
-            }
-        }
+        description: description
     }, function (err, role) {
         if (err) {
             return done(err);

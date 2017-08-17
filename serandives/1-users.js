@@ -1,7 +1,7 @@
 var log = require('logger')('initializers:serandives:users');
 var nconf = require('nconf');
-var User = require('model-users');
-var Role = require('model-roles');
+var Users = require('model-users');
+var Roles = require('model-roles');
 
 var email = 'admin@serandives.com';
 
@@ -10,7 +10,7 @@ module.exports = function (done) {
     if (!suPass) {
         return done('su password cannot be found. Please specify it using SU_PASS');
     }
-    Role.findOne({
+    Roles.findOne({
         name: 'admin'
     }).exec(function (err, role) {
         if (err) {
@@ -22,14 +22,25 @@ module.exports = function (done) {
         var user = {
             email: email,
             password: suPass,
-            roles: [role.id]
+            roles: [role.id],
+            createdAt: new Date(),
+            updatedAt: new Date()
         };
-        User.create(user, function (err, user) {
+        Users.create(user, function (err, user) {
             if (err) {
                 return done(err);
             }
-            log.info('users created successfully');
-            done();
+            user.allowed = {
+                user: user.id,
+                perms: ['read', 'update', 'delete']
+            };
+            Users.update({_id: user.id}, user, function (err) {
+                if (err) {
+                    return done(err);
+                }
+                log.info('users created successfully');
+                done();
+            });
         });
     });
 };
