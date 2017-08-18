@@ -12,7 +12,7 @@
     "lodash": "^4.17.4",
     "logger": "serandules/logger#master",
     "model-users": "serandules/model-users#master",
-    "model-roles": "serandules/model-roles#master",
+    "model-groups": "serandules/model-groups#master",
     "model-clients": "serandules/model-clients#master",
     "model-configs": "serandules/model-configs#master",
     "model-tokens": "serandules/model-tokens#master",
