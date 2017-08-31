@@ -19,11 +19,12 @@ module.exports = function (done) {
         if (err) {
             return done(err);
         }
-        user.permissions = {
-            user: user.id,
-            actions: ['read', 'update', 'delete']
-        };
-        Users.update({_id: user.id}, user, function (err) {
+        Users.update({_id: user.id}, {
+            permissions: {
+                user: user.id,
+                actions: ['read', 'update', 'delete']
+            }
+        }, function (err) {
             if (err) {
                 return done(err);
             }
