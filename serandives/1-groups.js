@@ -26,14 +26,24 @@ module.exports = function (done) {
                 if (err) {
                     return done(err);
                 }
-                Users.update({_id: user.id}, {
-                    groups: [admin.id, pub.id]
+                Groups.update({_id: pub._id}, {
+                    permissions: [{
+                        group: pub._id,
+                        actions: ['read']
+                    }]
                 }, function (err) {
                     if (err) {
                         return done(err);
                     }
-                    log.info('groups created successfully');
-                    done();
+                    Users.update({_id: user.id}, {
+                        groups: [admin.id, pub.id]
+                    }, function (err) {
+                        if (err) {
+                            return done(err);
+                        }
+                        log.info('groups created successfully');
+                        done();
+                    });
                 });
             });
         });
