@@ -7,7 +7,7 @@ var email = 'admin@serandives.com';
 module.exports = function (done) {
     var suPass = nconf.get('password');
     if (!suPass) {
-        return done('su password cannot be found. Please specify it using SU_PASS');
+        return done('su password cannot be found');
     }
     var user = {
         email: email,
