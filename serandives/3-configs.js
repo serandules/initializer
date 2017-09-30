@@ -43,7 +43,7 @@ module.exports = function (done) {
         if (!client) {
             return done('No client with name %s can be found.', clientName);
         }
-        var facebookId = nconf.get('facebookId');
+        var facebookId = nconf.get('FACEBOOK_ID');
         var serandivesId = client.id;
         configs.push({
             user: client.user,

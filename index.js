@@ -6,7 +6,7 @@ var fs = require('fs');
 
 var Config = require('model-configs');
 
-var env = nconf.get('env');
+var env = nconf.get('ENV');
 
 exports.init = function (done) {
     Config.findOne({name: 'initializers'}).exec(function (err, config) {

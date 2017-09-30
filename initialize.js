@@ -6,11 +6,11 @@ var initializer = require('./index');
 
 mongoose.Promise = global.Promise;
 
-var env = nconf.get('env');
+var env = nconf.get('ENV');
 
 nconf.defaults(require('./env/' + env + '.json'));
 
-var mongodbUri = nconf.get('mongodbUri');
+var mongodbUri = nconf.get('MONGODB_URI');
 
 mongoose.connect(mongodbUri);
 var db = mongoose.connection;
