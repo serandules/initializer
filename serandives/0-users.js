@@ -5,7 +5,7 @@ var Users = require('model-users');
 var email = 'admin@serandives.com';
 
 module.exports = function (done) {
-    var suPass = nconf.get('password');
+    var suPass = nconf.get('PASSWORD');
     if (!suPass) {
         return done('su password cannot be found');
     }
