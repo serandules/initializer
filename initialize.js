@@ -34,7 +34,7 @@ db.on('error', function (err) {
 });
 
 db.once('open', function () {
-    log.debug('connected to mongodb : ' + mongodbUri);
+    log.debug('connected to mongodb');
     initializer.init(function (err) {
         if (err) {
             return log.error(err);
