@@ -1,5 +1,6 @@
 var log = require('logger')('initializers:initialize');
 var nconf = require('nconf').argv().env();
+var fs = require('fs');
 var async = require('async');
 var mongoose = require('mongoose');
 var initializer = require('./index');
