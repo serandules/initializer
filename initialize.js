@@ -10,13 +10,28 @@ var env = nconf.get('ENV');
 
 nconf.defaults(require('./env/' + env + '.json'));
 
-var mongodbUri = nconf.get('MONGODB_URI');
+var certPath = nconf.get('CERT_SERANDIVES');
+var pemPath = nconf.get('PEM_SERVER');
+var mongourl = nconf.get('MONGODB_URI');
 
-mongoose.connect(mongodbUri);
+var ca = certPath ? fs.readFileSync(certPath) : null;
+var pem = pemPath ? fs.readFileSync(pemPath) : null;
+
+mongoose.connect(mongourl, {
+    useMongoClient: true,
+    authSource: 'admin',
+    ssl: !!pem,
+    sslCA: ca,
+    sslCert: pem,
+    sslKey: pem
+});
+
 var db = mongoose.connection;
+
 db.on('error', function (err) {
     log.error('mongodb connection error: %e', err);
 });
+
 db.once('open', function () {
     log.debug('connected to mongodb : ' + mongodbUri);
     initializer.init(function (err) {
