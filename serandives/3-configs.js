@@ -44,6 +44,7 @@ module.exports = function (done) {
             return done('No client with name %s can be found.', clientName);
         }
         var facebookId = nconf.get('FACEBOOK_ID');
+        var googleKey = nconf.get('GOOGLE_KEY');
         var serandivesId = client.id;
         configs.push({
             user: client.user,
@@ -52,7 +53,8 @@ module.exports = function (done) {
                 clients: {
                     facebook: facebookId,
                     serandives: serandivesId
-                }
+                },
+                googleKey: googleKey
             }
         });
         Groups.find({user: client.user, name: {$in: ['public']}}, function (err, groups) {
