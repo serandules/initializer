@@ -7,7 +7,7 @@
     "email": "serandives@gmail.com"
   },
   "dependencies": {
-    "mongoose": "4.*",
+    "mongoose": "5.*",
     "async": "*",
     "nconf": "*",
     "lodash": "^4.17.4",
