@@ -12,6 +12,7 @@
     "nconf": "*",
     "lodash": "^4.17.4",
     "logger": "serandules/logger#master",
+    "utils": "serandules/utils#master",
     "model-users": "serandules/model-users#master",
     "model-groups": "serandules/model-groups#master",
     "model-clients": "serandules/model-clients#master",

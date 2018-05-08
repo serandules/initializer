@@ -4,9 +4,10 @@ var async = require('async');
 var mongoose = require('mongoose');
 var fs = require('fs');
 
+var utils = require('utils');
 var Config = require('model-configs');
 
-var env = nconf.get('ENV');
+var env = utils.env();
 
 exports.init = function (done) {
     Config.findOne({name: 'initializers'}).exec(function (err, config) {
