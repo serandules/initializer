@@ -11,20 +11,13 @@ var env = nconf.get('ENV');
 
 nconf.defaults(require('./env/' + env + '.json'));
 
-var certPath = nconf.get('CERT_SERANDIVES');
-var pemPath = nconf.get('PEM_SERVER');
 var mongourl = nconf.get('MONGODB_URI');
 
-var ca = certPath ? fs.readFileSync(certPath) : null;
-var pem = pemPath ? fs.readFileSync(pemPath) : null;
+var ssl = (env === 'production');
 
 mongoose.connect(mongourl, {
-    useMongoClient: true,
     authSource: 'admin',
-    ssl: !!pem,
-    sslCA: ca,
-    sslCert: pem,
-    sslKey: pem
+    ssl: ssl
 });
 
 var db = mongoose.connection;
