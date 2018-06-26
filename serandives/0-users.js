@@ -20,10 +20,10 @@ module.exports = function (done) {
             return done(err);
         }
         Users.update({_id: user.id}, {
-            permissions: {
+            permissions: [{
                 user: user.id,
                 actions: ['read', 'update', 'delete']
-            }
+            }]
         }, function (err) {
             if (err) {
                 return done(err);
