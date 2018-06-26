@@ -1,19 +1,9 @@
 {
-  "port": "6000",
-  "mongodbUri": "mongodb://127.0.0.1:27017/serandives-test",
-  "password": "ruchira",
-  "server": "http://development.{sub}.serandives.com:6000",
-  "cdn": "http://localhost:4040",
-  "awsKey": "",
-  "awsSecret": "",
-  "domains": {
-    "accounts": "master",
-    "advertising": "master",
-    "autos": "master"
-  },
-  "clients": {
-    "accounts": "master",
-    "advertising": "master",
-    "autos": "master"
-  }
+  "MONGODB_URI": "mongodb://127.0.0.1:27017/serandives-development",
+  "PASSWORD": "",
+  "FACEBOOK_ID": "",
+  "FACEBOOK_SECRET": "",
+  "AWS_KEY": "",
+  "AWS_SECRET": "",
+  "CONFIG_BOOT_AUTOS": "cdn:https://d1kdoh4oxh2joj.cloudfront.net/"
 }
