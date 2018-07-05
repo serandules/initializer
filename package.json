@@ -18,6 +18,7 @@
     "model-clients": "serandules/model-clients#master",
     "model-configs": "serandules/model-configs#master",
     "model-tokens": "serandules/model-tokens#master",
+    "model-tiers": "serandules/model-tiers#master",
     "model-vehicle-makes": "serandules/model-vehicle-makes#master",
     "model-vehicle-models": "serandules/model-vehicle-models#master"
   },
