@@ -23,17 +23,17 @@ mongoose.connect(mongourl, {
 var db = mongoose.connection;
 
 db.on('error', function (err) {
-    log.error('mongodb connection error: %e', err);
+    log.error('db:errored', err);
 });
 
 db.once('open', function () {
-    log.debug('connected to mongodb');
+    log.info('db:opened');
     initializer.init(function (err) {
         if (err) {
-            return log.error(err);
+            return log.error('initializers:errored', err);
         }
         mongoose.disconnect(function () {
-            log.info('successfully initialized');
+            log.info('db:initialized');
         });
     });
 });

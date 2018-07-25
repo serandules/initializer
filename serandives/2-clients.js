@@ -32,7 +32,7 @@ module.exports = function (done) {
             if (err) {
                 return done(err);
             }
-            log.info('clients created successfully');
+            log.info('clients:created');
             done();
         });
     });

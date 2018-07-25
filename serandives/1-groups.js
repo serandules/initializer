@@ -41,7 +41,7 @@ module.exports = function (done) {
                         if (err) {
                             return done(err);
                         }
-                        log.info('groups created successfully');
+                        log.info('groups:created');
                         done();
                     });
                 });

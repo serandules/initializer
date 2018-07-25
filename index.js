@@ -49,8 +49,7 @@ exports.init = function (done) {
                 });
             }, function (err) {
                 if (err) {
-                    console.error(err)
-                    log.error('error executing initializers: %e', err);
+                    log.error('initializers:errored', err);
                 }
                 initializers = initializers.concat(ran);
                 Config.update({name: 'initializers'}, {value: JSON.stringify(initializers)}, {upsert: true}, done);

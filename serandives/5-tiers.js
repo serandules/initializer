@@ -106,7 +106,7 @@ module.exports = function (done) {
           if (err) {
             return done(err);
           }
-          log.info('tiers created successfully');
+          log.info('tiers:created');
           done();
         });
       });

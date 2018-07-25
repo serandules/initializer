@@ -28,7 +28,7 @@ module.exports = function (done) {
             if (err) {
                 return done(err);
             }
-            log.info('users created successfully');
+            log.info('users:created');
             done();
         });
     });

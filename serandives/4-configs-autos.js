@@ -28,7 +28,7 @@ var create = function (user, config, added) {
             if (err) {
                 return added(err);
             }
-            log.info('configs %s created successfully', name);
+            log.info('configs:created', 'name:%s', name);
             added();
         });
     });

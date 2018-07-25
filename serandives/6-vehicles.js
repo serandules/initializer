@@ -22,7 +22,7 @@ var createModels = function (make, models, done) {
             if (err) {
                 return modeled(err);
             }
-            log.info('model %s created successfully', o.title);
+            log.info('models:created', 'title:%s', o.title);
             modeled();
         });
     }, done);
@@ -49,7 +49,7 @@ module.exports = function (done) {
                     if (err) {
                         return made(err);
                     }
-                    log.info('make %s created successfully', o.title);
+                    log.info('makes:created', 'title:%s', o.title);
                     createModels(o, make.models, made);
                 });
             });
