@@ -1,4 +1,5 @@
 var log = require('logger')('initializers:serandives:clients');
+var utils = require('utils');
 var Clients = require('model-clients');
 var Users = require('model-users');
 
@@ -7,8 +8,8 @@ var email = 'admin@serandives.com';
 var name = 'serandives';
 
 var to = [
-    'https://accounts.serandives.com/signin/serandives',
-    'https://autos.serandives.com/signin/serandives'
+    utils.resolve('accounts://auth/oauth'),
+    utils.resolve('autos://auth/oauth')
 ];
 
 module.exports = function (done) {
