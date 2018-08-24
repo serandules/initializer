@@ -8,8 +8,9 @@ var email = 'admin@serandives.com';
 var name = 'serandives';
 
 var to = [
-    utils.resolve('accounts:///auth/oauth'),
-    utils.resolve('autos:///auth/oauth')
+    utils.resolve('accounts://'),
+    utils.resolve('accounts:///auth'),
+    utils.resolve('autos:///auth')
 ];
 
 module.exports = function (done) {
