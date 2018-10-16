@@ -15,7 +15,7 @@ var makes = [
   {title: 'Nissan', country: 'Japan', models: [{type: 'suv', title: 'X-Trail'}, {type: 'car', title: 'Sunny'}]}
 ];
 
-var createModels = function (user, group, make, models, done) {
+var createModels = function (user, pub, make, models, done) {
   async.eachLimit(models, 10, function (model, modeled) {
     model.user = make.user;
     model.make = make;
@@ -23,7 +23,7 @@ var createModels = function (user, group, make, models, done) {
       user: user.id,
       actions: ['read', 'update', 'delete']
     }, {
-      group: group._id,
+      group: pub._id,
       actions: ['read']
     }];
     VehicleModels.create(model, function (err, o) {
@@ -44,11 +44,11 @@ module.exports = function (done) {
     if (!user) {
       return done('No user with email %s can be found.', email);
     }
-    Groups.findOne({name: 'public'}, function (err, group) {
+    Groups.findOne({name: 'public'}, function (err, pub) {
       if (err) {
         return done(err);
       }
-      if (!group) {
+      if (!pub) {
         return done('No public group can be found');
       }
       async.eachLimit(makes, 10, function (make, made) {
@@ -57,14 +57,14 @@ module.exports = function (done) {
             return made(err);
           }
           if (o) {
-            return createModels(user, group, o, make.models, made);
+            return createModels(user, pub, o, make.models, made);
           }
           make.user = user;
           make.permissions = [{
             user: user.id,
             actions: ['read', 'update', 'delete']
           }, {
-            group: group._id,
+            group: pub._id,
             actions: ['read']
           }];
           VehicleMakes.create(make, function (err, o) {
@@ -72,7 +72,7 @@ module.exports = function (done) {
               return made(err);
             }
             log.info('makes:created', 'title:%s', o.title);
-            createModels(user, group, o, make.models, made);
+            createModels(user, pub, o, make.models, made);
           });
         });
       }, done);
