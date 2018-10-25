@@ -1,12 +1,13 @@
 var log = require('logger')('initializers:serandives:makes');
 var async = require('async');
 
+var utils = require('utils');
 var Users = require('model-users');
 var Groups = require('model-groups');
 var VehicleMakes = require('model-vehicle-makes');
 var VehicleModels = require('model-vehicle-models');
 
-var email = 'admin@serandives.com';
+var email = utils.root();
 
 var makes = [
   {title: 'Honda', country: 'Japan', models: [{type: 'suv', title: 'Vezel'}, {type: 'car', title: 'Grace'}]},

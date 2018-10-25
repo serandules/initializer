@@ -1,9 +1,10 @@
 var log = require('logger')('initializers:serandives:tiers');
 
+var utils = require('utils');
 var Users = require('model-users');
 var Tiers = require('model-tiers');
 
-var email = 'admin@serandives.com';
+var email = utils.root();
 
 module.exports = function (done) {
   Users.findOne({email: email}, function (err, user) {

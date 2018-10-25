@@ -49,7 +49,7 @@ exports.init = function (done) {
                 });
             }, function (err) {
                 if (err) {
-                    log.error('initializers:errored', err);
+                    return done(err);
                 }
                 initializers = initializers.concat(ran);
                 Config.update({name: 'initializers'}, {value: JSON.stringify(initializers)}, {upsert: true}, done);

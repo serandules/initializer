@@ -1,9 +1,10 @@
 var log = require('logger')('initializers:serandives:groups');
 
+var utils = require('utils');
 var Users = require('model-users');
 var Groups = require('model-groups');
 
-var email = 'admin@serandives.com';
+var email = utils.root();
 
 module.exports = function (done) {
   Users.findOne({email: email}, function (err, user) {
@@ -20,8 +21,11 @@ module.exports = function (done) {
       }
       Groups.update({_id: admin._id}, {
         permissions: [{
+          user: user._id,
+          actions: ['read', 'update', 'delete']
+        }, {
           group: admin._id,
-          actions: ['read', 'update']
+          actions: ['read', 'update', 'delete']
         }]
       }, function (err) {
         if (err) {
@@ -37,6 +41,12 @@ module.exports = function (done) {
           }
           Groups.update({_id: pub._id}, {
             permissions: [{
+              user: user._id,
+              actions: ['read', 'update', 'delete']
+            }, {
+              group: admin._id,
+              actions: ['read', 'update', 'delete']
+            }, {
               group: pub._id,
               actions: ['read']
             }]

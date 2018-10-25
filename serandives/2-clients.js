@@ -2,10 +2,11 @@ var log = require('logger')('initializers:serandives:clients');
 var utils = require('utils');
 var Clients = require('model-clients');
 var Users = require('model-users');
+var Groups = require('model-groups');
 
-var email = 'admin@serandives.com';
+var email = utils.root();
 
-var name = 'serandives';
+var space = utils.space();
 
 var to = [
     utils.resolve('accounts://'),
@@ -21,21 +22,33 @@ module.exports = function (done) {
         if (!user) {
             return done('No user with email %s can be found.', email);
         }
+      Groups.findOne({user: user, name: 'admin'}, function (err, admin) {
+        if (err) {
+          return done(err);
+        }
         Clients.create({
-            name: name,
-            user: user,
-            to: to,
-            has: {
-                '*': {
-                    '': ['*']
-                }
+          name: space,
+          user: user,
+          to: to,
+          has: {
+            '*': {
+              '': ['*']
             }
+          },
+          permissions: [{
+            user: user._id,
+            actions: ['read', 'update', 'delete']
+          }, {
+            group: admin._id,
+            actions: ['read', 'update', 'delete']
+          }]
         }, function (err, client) {
-            if (err) {
-                return done(err);
-            }
-            log.info('clients:created');
-            done();
+          if (err) {
+            return done(err);
+          }
+          log.info('clients:created');
+          done();
         });
+      });
     });
 };

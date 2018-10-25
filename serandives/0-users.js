@@ -3,7 +3,7 @@ var nconf = require('nconf');
 var utils = require('utils');
 var Users = require('model-users');
 
-var email = 'admin@serandives.com';
+var email = utils.root();
 
 module.exports = function (done) {
     var suPass = nconf.get('PASSWORD');
