@@ -52,6 +52,8 @@ module.exports = function (done) {
       }
       var facebookId = nconf.get('FACEBOOK_ID');
       var googleKey = nconf.get('GOOGLE_KEY');
+      var staticsCDN = nconf.get('CDN_STATICS');
+      var imagesCDN = nconf.get('CDN_IMAGES');
       var serandivesId = client.id;
       var groupz = {};
       groups.forEach(function (group) {
@@ -76,7 +78,11 @@ module.exports = function (done) {
             facebook: facebookId,
             serandives: serandivesId
           },
-          googleKey: googleKey
+          googleKey: googleKey,
+          cdns: {
+            statics: staticsCDN,
+            images: imagesCDN
+          }
         },
         permissions: permissions
       });
