@@ -16,7 +16,7 @@ var makes = [
   {title: 'Nissan', country: 'Japan', models: [{type: 'suv', title: 'X-Trail'}, {type: 'car', title: 'Sunny'}]}
 ];
 
-var createModels = function (user, pub, make, models, done) {
+var createModels = function (user, pub, anon, make, models, done) {
   async.eachLimit(models, 10, function (model, modeled) {
     model.user = make.user;
     model.make = make;
@@ -26,7 +26,16 @@ var createModels = function (user, pub, make, models, done) {
     }, {
       group: pub._id,
       actions: ['read']
+    }, {
+      group: anon._id,
+      actions: ['read']
     }];
+    model.visibility = {
+      '*': {
+        users: [user._id],
+        groups: [pub._id, anon._id]
+      }
+    };
     VehicleModels.create(model, function (err, o) {
       if (err) {
         return modeled(err);
@@ -52,31 +61,48 @@ module.exports = function (done) {
       if (!pub) {
         return done('No public group can be found');
       }
-      async.eachLimit(makes, 10, function (make, made) {
-        VehicleMakes.findOne({title: make.title}).exec(function (err, o) {
-          if (err) {
-            return made(err);
-          }
-          if (o) {
-            return createModels(user, pub, o, make.models, made);
-          }
-          make.user = user;
-          make.permissions = [{
-            user: user.id,
-            actions: ['read', 'update', 'delete']
-          }, {
-            group: pub._id,
-            actions: ['read']
-          }];
-          VehicleMakes.create(make, function (err, o) {
+      Groups.findOne({name: 'anonymous'}, function (err, anon) {
+        if (err) {
+          return done(err);
+        }
+        if (!pub) {
+          return done('No anonymous group can be found');
+        }
+        async.eachLimit(makes, 10, function (make, made) {
+          VehicleMakes.findOne({title: make.title}).exec(function (err, o) {
             if (err) {
               return made(err);
             }
-            log.info('makes:created', 'title:%s', o.title);
-            createModels(user, pub, o, make.models, made);
+            if (o) {
+              return createModels(user, pub, anon, o, make.models, made);
+            }
+            make.user = user;
+            make.permissions = [{
+              user: user.id,
+              actions: ['read', 'update', 'delete']
+            }, {
+              group: pub._id,
+              actions: ['read']
+            }, {
+              group: anon._id,
+              actions: ['read']
+            }];
+            make.visibility = {
+              '*': {
+                users: [user._id],
+                groups: [pub._id, anon._id]
+              }
+            };
+            VehicleMakes.create(make, function (err, o) {
+              if (err) {
+                return made(err);
+              }
+              log.info('makes:created', 'title:%s', o.title);
+              createModels(user, pub, anon, o, make.models, made);
+            });
           });
-        });
-      }, done);
+        }, done);
+      });
     });
   });
 };

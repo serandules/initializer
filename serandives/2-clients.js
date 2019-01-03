@@ -41,7 +41,13 @@ module.exports = function (done) {
           }, {
             group: admin._id,
             actions: ['read', 'update', 'delete']
-          }]
+          }],
+          visibility: {
+            '*': {
+              users: [user._id],
+              groups: [admin._id]
+            }
+          }
         }, function (err, client) {
           if (err) {
             return done(err);

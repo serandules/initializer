@@ -13,6 +13,7 @@ var create = function (user, config, added) {
   var name = config.name;
   var value = config.value;
   var permissions = config.permissions;
+  var visibility = config.visibility;
   Configs.findOne({
     name: name
   }).exec(function (err, config) {
@@ -26,7 +27,8 @@ var create = function (user, config, added) {
       user: user,
       name: name,
       value: JSON.stringify(value),
-      permissions: permissions
+      permissions: permissions,
+      visibility: visibility
     }, function (err, config) {
       if (err) {
         return added(err);
@@ -46,7 +48,7 @@ module.exports = function (done) {
     if (!client) {
       return done('No client with name %s can be found.', space);
     }
-    Groups.find({user: client.user, name: {$in: ['public', 'admin']}}, function (err, groups) {
+    Groups.find({user: client.user, name: {$in: ['public', 'admin', 'anonymous']}}, function (err, groups) {
       if (err) {
         return done(err);
       }
@@ -68,7 +70,22 @@ module.exports = function (done) {
       }, {
         group: groupz.public._id,
         actions: ['read']
+      }, {
+        group: groupz.anonymous._id,
+        actions: ['read']
       }];
+      var visibility = {
+        '*': {
+          users: [client.user._id],
+          groups: [groupz.admin._id]
+        },
+        name: {
+          groups: [groupz.public._id, groupz.anonymous._id]
+        },
+        value: {
+          groups: [groupz.public._id, groupz.anonymous._id]
+        }
+      };
       // boots
       configs.push({
         user: client.user,
@@ -84,7 +101,8 @@ module.exports = function (done) {
             images: imagesCDN
           }
         },
-        permissions: permissions
+        permissions: permissions,
+        visibility: visibility
       });
       // groups
       configs.push({
@@ -95,7 +113,8 @@ module.exports = function (done) {
           name: groupz.public.name,
           description: groupz.public.description
         }],
-        permissions: permissions
+        permissions: permissions,
+        visibility: visibility
       });
       async.each(configs, function (config, added) {
         create(client.user, config, added);

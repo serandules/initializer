@@ -26,7 +26,13 @@ module.exports = function (done) {
         }, {
           group: admin._id,
           actions: ['read', 'update', 'delete']
-        }]
+        }],
+        visibility: {
+          '*': {
+            users: [user._id],
+            groups: [admin._id]
+          }
+        }
       }, function (err) {
         if (err) {
           return done(err);
@@ -49,7 +55,13 @@ module.exports = function (done) {
             }, {
               group: pub._id,
               actions: ['read']
-            }]
+            }],
+            visibility: {
+              '*': {
+                users: [user._id],
+                groups: [admin._id]
+              }
+            }
           }, function (err) {
             if (err) {
               return done(err);
@@ -60,8 +72,39 @@ module.exports = function (done) {
               if (err) {
                 return done(err);
               }
-              log.info('groups:created');
-              done();
+              Groups.create({
+                user: user,
+                name: 'anonymous',
+                description: 'serandives.com anonymous group'
+              }, function (err, anon) {
+                if (err) {
+                  return done(err);
+                }
+                Groups.update({_id: anon._id}, {
+                  permissions: [{
+                    user: user._id,
+                    actions: ['read', 'update', 'delete']
+                  }, {
+                    group: admin._id,
+                    actions: ['read', 'update', 'delete']
+                  }, {
+                    group: anon._id,
+                    actions: ['read']
+                  }],
+                  visibility: {
+                    '*': {
+                      users: [user._id],
+                      groups: [admin._id]
+                    }
+                  }
+                }, function (err) {
+                  if (err) {
+                    return done(err);
+                  }
+                  log.info('groups:created');
+                  done();
+                });
+              });
             });
           });
         });
