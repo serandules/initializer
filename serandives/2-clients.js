@@ -30,11 +30,6 @@ module.exports = function (done) {
           name: space,
           user: user,
           to: to,
-          has: {
-            '*': {
-              '': ['*']
-            }
-          },
           permissions: [{
             user: user._id,
             actions: ['read', 'update', 'delete']
@@ -47,7 +42,8 @@ module.exports = function (done) {
               users: [user._id],
               groups: [admin._id]
             }
-          }
+          },
+          _: {}
         }, function (err, client) {
           if (err) {
             return done(err);

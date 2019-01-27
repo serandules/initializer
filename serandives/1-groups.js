@@ -14,7 +14,8 @@ module.exports = function (done) {
     Groups.create({
       user: user,
       name: 'admin',
-      description: 'serandives.com admin group'
+      description: 'serandives.com admin group',
+      _: {}
     }, function (err, admin) {
       if (err) {
         return done(err);
@@ -40,7 +41,8 @@ module.exports = function (done) {
         Groups.create({
           user: user,
           name: 'public',
-          description: 'serandives.com public group'
+          description: 'serandives.com public group',
+          _: {}
         }, function (err, pub) {
           if (err) {
             return done(err);
@@ -75,7 +77,8 @@ module.exports = function (done) {
               Groups.create({
                 user: user,
                 name: 'anonymous',
-                description: 'serandives.com anonymous group'
+                description: 'serandives.com anonymous group',
+                _: {}
               }, function (err, anon) {
                 if (err) {
                   return done(err);

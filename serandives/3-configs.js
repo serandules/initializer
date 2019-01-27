@@ -28,7 +28,8 @@ var create = function (user, config, added) {
       name: name,
       value: JSON.stringify(value),
       permissions: permissions,
-      visibility: visibility
+      visibility: visibility,
+      _: {}
     }, function (err, config) {
       if (err) {
         return added(err);

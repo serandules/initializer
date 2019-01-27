@@ -42,7 +42,8 @@ module.exports = function (done) {
           hour: 500,
           day: 1000
         }
-      }
+      },
+      _: {}
     }, function (err, free) {
       if (err) {
         return done(err);
@@ -78,7 +79,8 @@ module.exports = function (done) {
             hour: 500,
             day: 1000
           }
-        }
+        },
+        _: {}
       }, function (err, free) {
         if (err) {
           return done(err);
@@ -102,7 +104,8 @@ module.exports = function (done) {
               day: Number.MAX_VALUE,
               month: Number.MAX_VALUE
             }
-          }
+          },
+          _: {}
         }, function (err, admin) {
           if (err) {
             return done(err);

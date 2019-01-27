@@ -36,6 +36,7 @@ var createModels = function (user, pub, anon, make, models, done) {
         groups: [pub._id, anon._id]
       }
     };
+    model._ = {};
     VehicleModels.create(model, function (err, o) {
       if (err) {
         return modeled(err);
@@ -93,6 +94,7 @@ module.exports = function (done) {
                 groups: [pub._id, anon._id]
               }
             };
+            make._ = {};
             VehicleMakes.create(make, function (err, o) {
               if (err) {
                 return made(err);
