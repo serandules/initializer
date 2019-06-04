@@ -110,9 +110,17 @@ module.exports = function (done) {
         user: client.user,
         name: 'groups',
         value: [{
+          id: groupz.anonymous.id,
+          name: groupz.anonymous.name,
+          description: groupz.anonymous.description
+        }, {
           id: groupz.public.id,
           name: groupz.public.name,
           description: groupz.public.description
+        }, {
+          id: groupz.admin.id,
+          name: groupz.admin.name,
+          description: groupz.admin.description
         }],
         permissions: permissions,
         visibility: visibility

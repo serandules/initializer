@@ -11,6 +11,7 @@ var space = utils.space();
 var to = [
     utils.resolve('accounts://'),
     utils.resolve('accounts:///auth'),
+    utils.resolve('admin:///auth'),
     utils.resolve('autos:///auth')
 ];
 
