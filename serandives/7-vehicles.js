@@ -3,6 +3,7 @@ var async = require('async');
 
 var utils = require('utils');
 var Users = require('model-users');
+var Workflows = require('model-workflows');
 var Groups = require('model-groups');
 var VehicleMakes = require('model-vehicle-makes');
 var VehicleModels = require('model-vehicle-models');
@@ -16,7 +17,7 @@ var makes = [
   {title: 'Nissan', country: 'Japan', models: [{type: 'suv', title: 'X-Trail'}, {type: 'car', title: 'Sunny'}]}
 ];
 
-var createModels = function (user, pub, anon, make, models, done) {
+var createModels = function (user, pub, anon, make, models, workflow, done) {
   async.eachLimit(models, 10, function (model, modeled) {
     model.user = make.user;
     model.make = make;
@@ -36,6 +37,8 @@ var createModels = function (user, pub, anon, make, models, done) {
         groups: [pub._id, anon._id]
       }
     };
+    model.workflow = workflow;
+    model.status = workflow.start;
     model._ = {};
     VehicleModels.create(model, function (err, o) {
       if (err) {
@@ -55,55 +58,62 @@ module.exports = function (done) {
     if (!user) {
       return done('No user with email %s can be found.', email);
     }
-    Groups.findOne({name: 'public'}, function (err, pub) {
+    Workflows.findOne({user: user, name: 'model'}, function (err, workflow) {
       if (err) {
         return done(err);
       }
-      if (!pub) {
-        return done('No public group can be found');
-      }
-      Groups.findOne({name: 'anonymous'}, function (err, anon) {
+      Groups.findOne({name: 'public'}, function (err, pub) {
         if (err) {
           return done(err);
         }
         if (!pub) {
-          return done('No anonymous group can be found');
+          return done('No public group can be found');
         }
-        async.eachLimit(makes, 10, function (make, made) {
-          VehicleMakes.findOne({title: make.title}).exec(function (err, o) {
-            if (err) {
-              return made(err);
-            }
-            if (o) {
-              return createModels(user, pub, anon, o, make.models, made);
-            }
-            make.user = user;
-            make.permissions = [{
-              user: user.id,
-              actions: ['read', 'update', 'delete']
-            }, {
-              group: pub._id,
-              actions: ['read']
-            }, {
-              group: anon._id,
-              actions: ['read']
-            }];
-            make.visibility = {
-              '*': {
-                users: [user._id],
-                groups: [pub._id, anon._id]
-              }
-            };
-            make._ = {};
-            VehicleMakes.create(make, function (err, o) {
+        Groups.findOne({name: 'anonymous'}, function (err, anon) {
+          if (err) {
+            return done(err);
+          }
+          if (!pub) {
+            return done('No anonymous group can be found');
+          }
+          async.eachLimit(makes, 10, function (make, made) {
+            VehicleMakes.findOne({title: make.title}).exec(function (err, o) {
               if (err) {
                 return made(err);
               }
-              log.info('makes:created', 'title:%s', o.title);
-              createModels(user, pub, anon, o, make.models, made);
+              if (o) {
+                return createModels(user, pub, anon, o, make.models, workflow, made);
+              }
+              make.user = user;
+              make.permissions = [{
+                user: user.id,
+                actions: ['read', 'update', 'delete']
+              }, {
+                group: pub._id,
+                actions: ['read']
+              }, {
+                group: anon._id,
+                actions: ['read']
+              }];
+              make.visibility = {
+                '*': {
+                  users: [user._id],
+                  groups: [pub._id, anon._id]
+                }
+              };
+              make.workflow = workflow;
+              make.status = workflow.start;
+              make._ = {};
+              VehicleMakes.create(make, function (err, o) {
+                if (err) {
+                  return made(err);
+                }
+                log.info('makes:created', 'title:%s', o.title);
+                createModels(user, pub, anon, o, make.models, workflow, made);
+              });
             });
-          });
-        }, done);
+          }, done);
+        });
       });
     });
   });

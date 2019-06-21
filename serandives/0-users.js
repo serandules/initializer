@@ -1,7 +1,6 @@
 var log = require('logger')('initializers:serandives:users');
 var nconf = require('nconf');
 var utils = require('utils');
-var model = require('model');
 var Users = require('model-users');
 
 var email = utils.root();
@@ -19,6 +18,7 @@ module.exports = function (done) {
         email: email,
         password: encrypted,
         alias: 'admin',
+        status: 'registered',
         createdAt: new Date(),
         updatedAt: new Date(),
         _: {}

@@ -3,27 +3,32 @@ var utils = require('utils');
 var Clients = require('model-clients');
 var Users = require('model-users');
 var Groups = require('model-groups');
+var Workflows = require('model-workflows');
 
 var email = utils.root();
 
 var space = utils.space();
 
 var to = [
-    utils.resolve('accounts://'),
-    utils.resolve('accounts:///auth'),
-    utils.resolve('admin:///auth'),
-    utils.resolve('autos:///auth')
+  utils.resolve('accounts://'),
+  utils.resolve('accounts:///auth'),
+  utils.resolve('admin:///auth'),
+  utils.resolve('autos:///auth')
 ];
 
 module.exports = function (done) {
-    Users.findOne({email: email}, function (err, user) {
-        if (err) {
-            return done(err);
-        }
-        if (!user) {
-            return done('No user with email %s can be found.', email);
-        }
-      Groups.findOne({user: user, name: 'admin'}, function (err, admin) {
+  Users.findOne({email: email}, function (err, user) {
+    if (err) {
+      return done(err);
+    }
+    if (!user) {
+      return done('No user with email %s can be found.', email);
+    }
+    Groups.findOne({user: user, name: 'admin'}, function (err, admin) {
+      if (err) {
+        return done(err);
+      }
+      Workflows.findOne({user: user, name: 'model'}, function (err, workflow) {
         if (err) {
           return done(err);
         }
@@ -44,6 +49,8 @@ module.exports = function (done) {
               groups: [admin._id]
             }
           },
+          workflow: workflow,
+          status: workflow.start,
           _: {}
         }, function (err, client) {
           if (err) {
@@ -54,4 +61,5 @@ module.exports = function (done) {
         });
       });
     });
+  });
 };
