@@ -11,6 +11,8 @@ var domain = utils.domain();
 
 var to = [
   utils.resolve('accounts://'),
+  utils.resolve(':///auth'),
+  utils.resolve('www:///auth'),
   utils.resolve('accounts:///auth'),
   utils.resolve('admin:///auth'),
   utils.resolve('autos:///auth')
