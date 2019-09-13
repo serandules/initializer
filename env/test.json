@@ -1,10 +1,11 @@
 {
+  "DOMAIN": "serandives.com",
+  "SUBDOMAIN": "test",
   "MONGODB_URI": "mongodb://127.0.0.1:27017/serandives-development",
   "PASSWORD": "",
   "FACEBOOK_ID": "",
   "FACEBOOK_SECRET": "",
   "AWS_KEY": "",
   "AWS_SECRET": "",
-  "SPACE": "serandives.com",
   "CONFIG_BOOT_AUTOS": "cdn:https://d1kdoh4oxh2joj.cloudfront.net/"
 }

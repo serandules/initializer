@@ -8,7 +8,7 @@ var Groups = require('model-groups');
 var Clients = require('model-clients');
 var Workflows = require('model-workflows');
 
-var space = utils.space();
+var domain = utils.domain();
 
 var create = function (user, config, added) {
   var name = config.name;
@@ -47,12 +47,12 @@ var create = function (user, config, added) {
 
 module.exports = function (done) {
   var configs = [];
-  Clients.findOne({name: space}).exec(function (err, client) {
+  Clients.findOne({name: domain}).exec(function (err, client) {
     if (err) {
       return done(err);
     }
     if (!client) {
-      return done('No client with name %s can be found.', space);
+      return done('No client with name %s can be found.', domain);
     }
     Groups.find({user: client.user, name: {$in: ['public', 'admin', 'anonymous']}}, function (err, groups) {
       if (err) {

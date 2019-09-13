@@ -2,11 +2,8 @@ var log = require('logger')('initializers:serandives:workflows');
 var utils = require('utils');
 var Workflows = require('model-workflows');
 var Users = require('model-users');
-var Groups = require('model-groups');
 
 var email = utils.root();
-
-var space = utils.space();
 
 module.exports = function (done) {
   Users.findOne({email: email}, function (err, user) {
@@ -24,8 +21,13 @@ module.exports = function (done) {
         if (err) {
           return done(err);
         }
-        log.info('workflow:created');
-        done();
+        workflowModelClients(user, function (err) {
+          if (err) {
+            return done(err);
+          }
+          log.info('workflow:created');
+          done();
+        });
       });
     });
   });
@@ -114,7 +116,6 @@ var workflowModel = function (user, done) {
   }, done);
 };
 
-
 var workflowModelUsers = function (user, done) {
   Workflows.create({
     name: 'model-users',
@@ -175,6 +176,57 @@ var workflowModelUsers = function (user, done) {
         },
         user: {
           actions: ['read', 'update'],
+          visibility: ['*']
+        }
+      }
+    }
+  }, done);
+};
+
+var workflowModelClients = function (user, done) {
+  Workflows.create({
+    name: 'model-clients',
+    user: user,
+    _: {},
+    start: 'sandbox',
+    transitions: {
+      sandbox: {
+        move: 'production'
+      },
+      production: {
+        move: 'sandbox'
+      }
+    },
+    permits: {
+      sandbox: {
+        groups: {
+          admin: {
+            actions: ['*'],
+            visibility: ['*']
+          }
+        },
+        user: {
+          actions: ['read', 'update', 'delete', 'move'],
+          visibility: ['*']
+        }
+      },
+      production: {
+        groups: {
+          admin: {
+            actions: ['*'],
+            visibility: ['*']
+          },
+          public: {
+            actions: ['read'],
+            visibility: ['name', 'to', 'description']
+          },
+          anonymous: {
+            actions: ['read'],
+            visibility: ['name', 'to', 'description']
+          }
+        },
+        user: {
+          actions: ['read', 'update', 'delete', 'move'],
           visibility: ['*']
         }
       }

@@ -7,7 +7,7 @@ var Workflows = require('model-workflows');
 
 var email = utils.root();
 
-var space = utils.space();
+var domain = utils.domain();
 
 var to = [
   utils.resolve('accounts://'),
@@ -28,36 +28,62 @@ module.exports = function (done) {
       if (err) {
         return done(err);
       }
-      Workflows.findOne({user: user, name: 'model'}, function (err, workflow) {
+      Groups.findOne({user: user, name: 'public'}, function (err, public) {
         if (err) {
           return done(err);
         }
-        Clients.create({
-          name: space,
-          user: user,
-          to: to,
-          permissions: [{
-            user: user._id,
-            actions: ['read', 'update', 'delete']
-          }, {
-            group: admin._id,
-            actions: ['read', 'update', 'delete']
-          }],
-          visibility: {
-            '*': {
-              users: [user._id],
-              groups: [admin._id]
-            }
-          },
-          workflow: workflow,
-          status: workflow.start,
-          _: {}
-        }, function (err, client) {
+        Groups.findOne({user: user, name: 'anonymous'}, function (err, anonymous) {
           if (err) {
             return done(err);
           }
-          log.info('clients:created');
-          done();
+          Workflows.findOne({user: user, name: 'model-clients'}, function (err, workflow) {
+            if (err) {
+              return done(err);
+            }
+            Clients.create({
+              name: domain,
+              description: 'Client for ' + domain,
+              user: user,
+              to: to,
+              permissions: [{
+                user: user._id,
+                actions: ['read', 'update', 'delete', 'move']
+              }, {
+                group: admin._id,
+                actions: ['read', 'update', 'delete', 'move']
+              }, {
+                group: public._id,
+                actions: ['read']
+              }, {
+                group: anonymous._id,
+                actions: ['read']
+              }],
+              visibility: {
+                '*': {
+                  users: [user._id],
+                  groups: [admin._id]
+                },
+                name: {
+                  groups: [public._id, anonymous._id]
+                },
+                description: {
+                  groups: [public._id, anonymous._id]
+                },
+                to: {
+                  groups: [public._id, anonymous._id]
+                }
+              },
+              workflow: workflow,
+              status: 'production',
+              _: {}
+            }, function (err, client) {
+              if (err) {
+                return done(err);
+              }
+              log.info('clients:created');
+              done();
+            });
+          });
         });
       });
     });
