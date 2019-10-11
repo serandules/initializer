@@ -1,4 +1,5 @@
 var log = require('logger')('initializers');
+var _ = require('lodash');
 var nconf = require('nconf');
 var async = require('async');
 var mongoose = require('mongoose');
@@ -8,6 +9,31 @@ var utils = require('utils');
 var Config = require('model-configs');
 
 var env = utils.env();
+
+var zeroPad = function (name, length) {
+    return (Array(length + 1).join('0') + name).slice(-length);
+};
+
+var sort = function (index, paths) {
+    var maxLength = 0
+    paths.forEach(function (path) {
+        var length = path.indexOf('-');
+        maxLength = length > maxLength ? length : maxLength;
+    });
+    var names = {};
+    _.map(paths, function (path) {
+        var length = path.length + maxLength - path.indexOf('-');
+        names[zeroPad(path, length)] = path;
+    });
+    var run = [];
+    Object.keys(names).sort().forEach(function (name) {
+        var path = names[name];
+        if (!index[path]) {
+            run.push(path);
+        }
+    });
+    return run;
+};
 
 exports.init = function (done) {
     Config.findOne({name: 'initializers'}).exec(function (err, config) {
@@ -23,12 +49,7 @@ exports.init = function (done) {
             if (err) {
                 return done(err);
             }
-            var run = [];
-            paths.sort().forEach(function (path) {
-                if (!index[path]) {
-                    run.push(path);
-                }
-            });
+            var run = sort(index, paths);
             var ran = [];
             async.whilst(function () {
                 return run.length;
