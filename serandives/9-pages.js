@@ -11,8 +11,9 @@ var pages = [
   {alias: '/about', title: 'About', body: 'about.html'},
   {alias: '/contact', title: 'Contact', body: 'contact.html'},
   {alias: '/help', title: 'Help', body: 'help.html'},
-  {alias: '/privacy', title: 'Privacy', body: 'privacy.html'},
-  {alias: '/terms', title: 'Terms', body: 'terms.html'}
+  {alias: '/privacy', title: 'Privacy Policy', body: 'privacy.html'},
+  {alias: '/terms', title: 'Terms of Use', body: 'terms.html'},
+  {alias: '/prohibited', title: 'Prohibited Items', body: 'prohibited.html'}
 ]
 
 module.exports = function (done) {
@@ -20,6 +21,13 @@ module.exports = function (done) {
     if (err) {
       return done(err);
     }
+    var visibility = o.visibility;
+    visibility.title = {
+      groups: [o.public._id, o.anonymous._id]
+    };
+    visibility.body = {
+      groups: [o.public._id, o.anonymous._id]
+    };
     async.eachSeries(pages, function (page, seriesDone) {
       fs.readFile(path.join(__dirname, '..', 'pages', page.body), function (err, data) {
         if (err) {
@@ -32,7 +40,7 @@ module.exports = function (done) {
           workflow: o.workflow,
           status: 'published',
           permissions: o.permissions,
-          visibility: o.visibility,
+          visibility: visibility,
           _: {}
         }, function (err, p) {
           if (err) {
