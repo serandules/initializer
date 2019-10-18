@@ -9,8 +9,7 @@ var menus = [{
   name: 'www',
   value: [
     {url: '/about', title: 'About'},
-    {url: '/contact', title: 'Contact'},
-    {url: '/help', title: 'Help'}
+    {url: '/contact', title: 'Contact'}
   ]
 }, {
   name: 'www-affiliates',

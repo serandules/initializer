@@ -8,8 +8,8 @@ var fs = require('fs');
 var path = require('path');
 
 var pages = [
-  {alias: '/about', title: 'About', body: 'about.html'},
-  {alias: '/contact', title: 'Contact', body: 'contact.html'},
+  {alias: '/about', title: 'About Us', body: 'about.html'},
+  {alias: '/contact', title: 'Contact Us', body: 'contact.html'},
   {alias: '/help', title: 'Help', body: 'help.html'},
   {alias: '/privacy', title: 'Privacy Policy', body: 'privacy.html'},
   {alias: '/terms', title: 'Terms of Use', body: 'terms.html'},

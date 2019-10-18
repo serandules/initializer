@@ -1,43 +1,26 @@
 var log = require('logger')('initializers:serandives:makes');
 var async = require('async');
 
-var utils = require('utils');
-var Users = require('model-users');
-var Workflows = require('model-workflows');
-var Groups = require('model-groups');
 var VehicleMakes = require('model-vehicle-makes');
 var VehicleModels = require('model-vehicle-models');
 var commons = require('../commons');
 
-var email = utils.root();
+var makes = require('../vehicles/makes');
 
-var makes = [
-  {title: 'Honda', country: 'Japan', models: [{type: 'suv', title: 'Vezel'}, {type: 'car', title: 'Grace'}]},
-  {title: 'Toyota', country: 'Japan', models: [{type: 'suv', title: 'V8'}, {type: 'car', title: 'Corolla'}]},
-  {title: 'Mazda', country: 'Japan', models: [{type: 'suv', title: 'CX-5'}, {type: 'car', title: 'Mazda6'}]},
-  {title: 'Nissan', country: 'Japan', models: [{type: 'suv', title: 'X-Trail'}, {type: 'car', title: 'Sunny'}]}
-];
-
-var createModels = function (user, pub, anon, make, models, workflow, done) {
+var createModels = function (o, make, models, done) {
+  var workflow = o.workflow;
   async.eachLimit(models, 10, function (model, modeled) {
-    model.user = make.user;
-    model.make = make;
-    model.permissions = [{
-      user: user.id,
-      actions: ['read', 'update', 'delete']
-    }, {
-      group: pub._id,
-      actions: ['read']
-    }, {
-      group: anon._id,
-      actions: ['read']
-    }];
-    model.visibility = {
-      '*': {
-        users: [user._id],
-        groups: [pub._id, anon._id]
-      }
+    var visibility = o.visibility;
+    visibility.make = {
+      groups: [o.public._id, o.anonymous._id]
     };
+    visibility.title = {
+      groups: [o.public._id, o.anonymous._id]
+    };
+    model.user = o.user;
+    model.make = make;
+    model.permissions = o.permissions;
+    model.visibility = visibility;
     model.workflow = workflow;
     model.status = workflow.start;
     model._ = {};
@@ -62,11 +45,15 @@ module.exports = function (done) {
           return made(err);
         }
         if (oo) {
-          return createModels(o.user, o.public, o.anonymous, oo, make.models, o.workflow, made);
+          return createModels(o, oo, make.models, made);
         }
+        var visibility = o.visibility;
+        visibility.title = {
+          groups: [o.public._id, o.anonymous._id]
+        };
         make.user = o.user;
         make.permissions = o.permissions;
-        make.visibility = o.visibility;
+        make.visibility = visibility;
         make.workflow = o.workflow;
         make.status = o.workflow.start;
         make._ = {};
@@ -75,7 +62,7 @@ module.exports = function (done) {
             return made(err);
           }
           log.info('makes:created', 'title:%s', oo.title);
-          createModels(o.user, o.public, o.anonymous, oo, make.models, o.workflow, made);
+          createModels(o, oo, make.models, made);
         });
       });
     }, done);
