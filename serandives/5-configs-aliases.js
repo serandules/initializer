@@ -1,4 +1,4 @@
-var log = require('logger')('initializers:serandives:menus');
+var log = require('logger')('initializers:serandives:configs-aliases');
 var Configs = require('model-configs');
 var commons = require('../commons');
 

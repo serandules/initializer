@@ -22,7 +22,8 @@
     "model-tiers": "serandules/model-tiers#master",
     "model-workflows": "serandules/model-workflows#master",
     "model-vehicle-makes": "serandules/model-vehicle-makes#master",
-    "model-vehicle-models": "serandules/model-vehicle-models#master"
+    "model-vehicle-models": "serandules/model-vehicle-models#master",
+    "vehicle-utils": "serandules/vehicle-utils#master"
   },
   "repository": {
     "type": "git",

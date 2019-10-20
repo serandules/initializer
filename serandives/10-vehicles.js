@@ -22,7 +22,7 @@ var createModels = function (o, make, models, done) {
     model.permissions = o.permissions;
     model.visibility = visibility;
     model.workflow = workflow;
-    model.status = workflow.start;
+    model.status = 'published';
     model._ = {};
     VehicleModels.create(model, function (err, o) {
       if (err) {
@@ -55,7 +55,7 @@ module.exports = function (done) {
         make.permissions = o.permissions;
         make.visibility = visibility;
         make.workflow = o.workflow;
-        make.status = o.workflow.start;
+        make.status = 'published';
         make._ = {};
         VehicleMakes.create(make, function (err, oo) {
           if (err) {

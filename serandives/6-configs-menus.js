@@ -1,4 +1,4 @@
-var log = require('logger')('initializers:serandives:menus');
+var log = require('logger')('initializers:serandives:configs-menus');
 
 var async = require('async');
 var Configs = require('model-configs');
