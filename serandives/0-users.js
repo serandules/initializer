@@ -34,7 +34,7 @@ module.exports = function (done) {
           }],
           visibility: {
             '*': {
-              users: [user._id]
+              users: [String(user._id)]
             }
           }
         }, function (err) {

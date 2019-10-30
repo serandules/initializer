@@ -77,38 +77,46 @@ module.exports = function (done) {
               if (err) {
                 return done(err);
               }
-              Users.update({_id: user.id}, {
-                groups: [admin.id, pub.id]
-              }, function (err) {
+              Groups.create({
+                user: user,
+                name: 'anonymous',
+                description: 'serandives.com anonymous group',
+                workflow: workflow,
+                status: workflow.start,
+                _: {}
+              }, function (err, anon) {
                 if (err) {
                   return done(err);
                 }
-                Groups.create({
-                  user: user,
-                  name: 'anonymous',
-                  description: 'serandives.com anonymous group',
-                  workflow: workflow,
-                  status: workflow.start,
-                  _: {}
-                }, function (err, anon) {
+                Groups.update({_id: anon._id}, {
+                  permissions: [{
+                    user: user._id,
+                    actions: ['read', 'update', 'delete']
+                  }, {
+                    group: admin._id,
+                    actions: ['read', 'update', 'delete']
+                  }, {
+                    group: anon._id,
+                    actions: ['read']
+                  }],
+                  visibility: {
+                    '*': {
+                      users: [user._id],
+                      groups: [admin._id]
+                    }
+                  }
+                }, function (err) {
                   if (err) {
                     return done(err);
                   }
-                  Groups.update({_id: anon._id}, {
-                    permissions: [{
-                      user: user._id,
-                      actions: ['read', 'update', 'delete']
-                    }, {
-                      group: admin._id,
-                      actions: ['read', 'update', 'delete']
-                    }, {
-                      group: anon._id,
-                      actions: ['read']
-                    }],
+                  Users.update({_id: user.id}, {
+                    groups: [admin.id, pub.id],
                     visibility: {
                       '*': {
-                        users: [user._id],
-                        groups: [admin._id]
+                        users: [String(user._id)]
+                      },
+                      'alias': {
+                        groups: [anon.id, pub.id]
                       }
                     }
                   }, function (err) {
