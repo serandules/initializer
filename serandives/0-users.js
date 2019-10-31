@@ -20,7 +20,7 @@ module.exports = function (done) {
         alias: 'admin',
         status: 'registered',
         createdAt: new Date(),
-        updatedAt: new Date(),
+        modifiedAt: new Date(),
         _: {}
       };
       Users.create(user, function (err, user) {
