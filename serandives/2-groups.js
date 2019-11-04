@@ -118,7 +118,17 @@ module.exports = function (done) {
                       'alias': {
                         groups: [anon.id, pub.id]
                       }
-                    }
+                    },
+                    permissions: [{
+                      user: user._id,
+                      actions: ['read', 'update', 'delete']
+                    }, {
+                      group: pub._id,
+                      actions: ['read']
+                    }, {
+                      group: anon._id,
+                      actions: ['read']
+                    }]
                   }, function (err) {
                     if (err) {
                       return done(err);
