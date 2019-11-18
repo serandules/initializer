@@ -21,7 +21,7 @@ var menus = [{
 }, {
   name: 'user',
   value: [
-    {url: '/profile', title: 'Profile'},
+    {url: '/users/me', title: 'Profile'},
     {url: '/contacts', title: 'Contacts'},
     {url: '/locations', title: 'Locations'}
   ]
