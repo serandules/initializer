@@ -155,11 +155,11 @@ var workflowModelUsers = function (user, done) {
           },
           public: {
             actions: ['read'],
-            visibility: ['id', 'alias']
+            visibility: ['id', 'alias', 'avatar']
           },
           anonymous: {
             actions: ['read'],
-            visibility: ['id', 'alias']
+            visibility: ['id', 'alias', 'avatar']
           }
         },
         user: {
