@@ -65,6 +65,17 @@ var menus = [{
     {url: 'jobs://', title: 'Jobs'}
   ]
 }, {
+  name: 'realestates-primary',
+  value: [
+    {url: '/realestates', title: 'Search'}
+  ]
+}, {
+  name: 'realestates-secondary',
+  value: [
+    {url: '/create-realestates', title: 'Add'},
+    {url: '/mine', title: 'My Real Estates'}
+  ]
+}, {
   name: 'jobs-affiliates',
   value: [
     {url: 'autos://', title: 'Autos'},

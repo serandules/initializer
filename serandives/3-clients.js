@@ -15,7 +15,8 @@ var to = [
   utils.resolve('www:///auth'),
   utils.resolve('accounts:///auth'),
   utils.resolve('admin:///auth'),
-  utils.resolve('autos:///auth')
+  utils.resolve('autos:///auth'),
+  utils.resolve('realestates:///auth')
 ];
 
 module.exports = function (done) {
