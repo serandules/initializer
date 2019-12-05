@@ -31,6 +31,7 @@ var menus = [{
     {url: '/manage-locations', title: 'Locations'},
     {url: '/manage-contacts', title: 'Contacts'},
     {url: '/manage-vehicles', title: 'Vehicles'},
+    {url: '/manage-realestates', title: 'RealEstates'},
     {url: '/manage-pages', title: 'Pages'},
     {url: '/manage-configs', title: 'Configs'}
   ]
