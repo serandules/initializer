@@ -5,7 +5,7 @@ var Users = require('model-users');
 var Groups = require('model-groups');
 var Workflows = require('model-workflows');
 
-var email = utils.root();
+var email = utils.adminEmail();
 
 var domain = utils.domain();
 

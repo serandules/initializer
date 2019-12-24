@@ -17,7 +17,7 @@ var createModels = function (o, make, models, done) {
     visibility.title = {
       groups: [o.public._id, o.anonymous._id]
     };
-    model.user = o.user;
+    model.user = o.adminUser;
     model.make = make;
     model.permissions = o.permissions;
     model.visibility = visibility;
@@ -51,7 +51,7 @@ module.exports = function (done) {
         visibility.title = {
           groups: [o.public._id, o.anonymous._id]
         };
-        make.user = o.user;
+        make.user = o.adminUser;
         make.permissions = o.permissions;
         make.visibility = visibility;
         make.workflow = o.workflow;

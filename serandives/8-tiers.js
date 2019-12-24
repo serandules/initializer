@@ -8,7 +8,7 @@ module.exports = function (done) {
       return done(err);
     }
     Tiers.create({
-      user: o.user,
+      user: o.adminUser,
       name: 'free',
       description: 'serandives.com free tier',
       apis: {
@@ -47,7 +47,7 @@ module.exports = function (done) {
         return done(err);
       }
       Tiers.create({
-        user: o.user,
+        user: o.adminUser,
         name: 'basic',
         description: 'serandives.com basic tier',
         apis: {
@@ -86,7 +86,7 @@ module.exports = function (done) {
           return done(err);
         }
         Tiers.create({
-          user: o.user,
+          user: o.adminUser,
           name: 'unlimited',
           description: 'serandives.com unlimited tier',
           apis: {

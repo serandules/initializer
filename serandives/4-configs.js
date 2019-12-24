@@ -57,7 +57,7 @@ module.exports = function (done) {
       groups: [o.public._id, o.anonymous._id]
     };
     configs.push({
-      user: o.user,
+      user: o.adminUser,
       name: 'boot',
       value: {
         clients: {
@@ -77,7 +77,7 @@ module.exports = function (done) {
     });
     // groups
     configs.push({
-      user: o.user,
+      user: o.adminUser,
       name: 'groups',
       value: [{
         id: o.anonymous.id,
@@ -97,8 +97,22 @@ module.exports = function (done) {
       workflow: o.workflow,
       status: 'published'
     });
+    // groups
+    configs.push({
+      user: o.adminUser,
+      name: 'users',
+      value: {
+        admin: o.adminUser.id,
+        support: o.supportUser.id,
+        talk: o.talkUser.id
+      },
+      permissions: o.permissions,
+      visibility: visibility,
+      workflow: o.workflow,
+      status: 'published'
+    });
     async.each(configs, function (config, added) {
-      create(o.user, config, added);
+      create(o.adminUser, config, added);
     }, done);
   });
 };

@@ -3,47 +3,107 @@ var nconf = require('nconf');
 var utils = require('utils');
 var Users = require('model-users');
 
-var email = utils.root();
+var adminEmail = utils.adminEmail();
+var supportEmail = utils.supportEmail();
+var talkEmail = utils.talkEmail();
 
 module.exports = function (done) {
-    var suPass = nconf.get('PASSWORD');
-    if (!suPass) {
-        return done('su password cannot be found');
+  var suPass = nconf.get('PASSWORD');
+  if (!suPass) {
+    return done('su password cannot be found');
+  }
+  utils.encrypt(suPass, function (err, encrypted) {
+    if (err) {
+      return done(err);
     }
-    utils.encrypt(suPass, function (err, encrypted) {
+    var adminUser = {
+      email: adminEmail,
+      password: encrypted,
+      alias: 'admin',
+      status: 'registered',
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+      _: {}
+    };
+    Users.create(adminUser, function (err, adminUser) {
       if (err) {
         return done(err);
       }
-      var user = {
-        email: email,
-        password: encrypted,
-        alias: 'admin',
-        status: 'registered',
-        createdAt: new Date(),
-        modifiedAt: new Date(),
-        _: {}
-      };
-      Users.create(user, function (err, user) {
+      Users.update({_id: adminUser._id}, {
+        permissions: [{
+          user: adminUser._id,
+          actions: ['read', 'update', 'delete']
+        }],
+        visibility: {
+          '*': {
+            users: [String(adminUser._id)]
+          }
+        }
+      }, function (err) {
         if (err) {
           return done(err);
         }
-        Users.update({_id: user._id}, {
-          permissions: [{
-            user: user._id,
-            actions: ['read', 'update', 'delete']
-          }],
-          visibility: {
-            '*': {
-              users: [String(user._id)]
-            }
-          }
-        }, function (err) {
+        var supportUser = {
+          email: supportEmail,
+          password: encrypted,
+          alias: 'support',
+          status: 'registered',
+          createdAt: new Date(),
+          modifiedAt: new Date(),
+          _: {}
+        };
+        Users.create(supportUser, function (err, supportUser) {
           if (err) {
             return done(err);
           }
-          log.info('users:created');
-          done();
+          Users.update({_id: supportUser._id}, {
+            permissions: [{
+              user: supportUser._id,
+              actions: ['read', 'update', 'delete']
+            }],
+            visibility: {
+              '*': {
+                users: [String(supportUser._id)]
+              }
+            }
+          }, function (err) {
+            if (err) {
+              return done(err);
+            }
+            var talkUser = {
+              email: talkEmail,
+              password: encrypted,
+              alias: 'talk',
+              status: 'registered',
+              createdAt: new Date(),
+              modifiedAt: new Date(),
+              _: {}
+            };
+            Users.create(talkUser, function (err, talkUser) {
+              if (err) {
+                return done(err);
+              }
+              Users.update({_id: talkUser._id}, {
+                permissions: [{
+                  user: talkUser._id,
+                  actions: ['read', 'update', 'delete']
+                }],
+                visibility: {
+                  '*': {
+                    users: [String(talkUser._id)]
+                  }
+                }
+              }, function (err) {
+                if (err) {
+                  return done(err);
+                }
+                log.info('users:created');
+                done();
+              });
+            });
+          });
         });
       });
     });
+  });
 };

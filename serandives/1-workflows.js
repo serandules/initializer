@@ -3,15 +3,15 @@ var utils = require('utils');
 var Workflows = require('model-workflows');
 var Users = require('model-users');
 
-var email = utils.root();
+var adminEmail = utils.adminEmail();
 
 module.exports = function (done) {
-  Users.findOne({email: email}, function (err, user) {
+  Users.findOne({email: adminEmail}, function (err, user) {
     if (err) {
       return done(err);
     }
     if (!user) {
-      return done('No user with email %s can be found.', email);
+      return done('No user with email %s can be found.', adminEmail);
     }
     workflowModel(user, function (err) {
       if (err) {
@@ -25,8 +25,13 @@ module.exports = function (done) {
           if (err) {
             return done(err);
           }
-          log.info('workflow:created');
-          done();
+          workflowModelMessages(user, function (err) {
+            if (err) {
+              return done(err);
+            }
+            log.info('workflow:created');
+            done();
+          });
         });
       });
     });
@@ -227,6 +232,65 @@ var workflowModelClients = function (user, done) {
         },
         user: {
           actions: ['read', 'update', 'delete', 'move'],
+          visibility: ['*']
+        }
+      }
+    }
+  }, done);
+};
+
+var workflowModelMessages = function (user, done) {
+  Workflows.create({
+    name: 'model-messages',
+    user: user,
+    _: {},
+    start: 'sent',
+    transitions: {
+      sent: {
+        receive: 'received'
+      },
+      received: {
+        unreceive: 'sent'
+      }
+    },
+    permits: {
+      sent: {
+        groups: {
+          admin: {
+            actions: ['*'],
+            visibility: ['*']
+          }
+        },
+        model: {
+          to: {
+            user: {
+              actions: ['read', 'receive', 'delete'],
+              visibility: ['*']
+            }
+          }
+        },
+        user: {
+          actions: ['read', 'update', 'delete'],
+          visibility: ['*']
+        }
+      },
+      received: {
+        groups: {
+          admin: {
+            actions: ['*'],
+            visibility: ['*']
+          }
+        },
+        model: {
+          to: {
+            user: {
+              actions: ['read', 'unreceive', 'delete'],
+              visibility: ['*']
+            }
+          }
+        },
+        user: {
+          actions: ['read'],
           visibility: ['*']
         }
       }

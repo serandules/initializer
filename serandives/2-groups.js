@@ -5,71 +5,49 @@ var Users = require('model-users');
 var Groups = require('model-groups');
 var Workflows = require('model-workflows');
 
-var email = utils.root();
+var adminEmail = utils.adminEmail();
+var supportEmail = utils.supportEmail();
+var talkEmail = utils.talkEmail();
 
 module.exports = function (done) {
-  Users.findOne({email: email}, function (err, user) {
+  Users.findOne({email: adminEmail}, function (err, adminUser) {
     if (err) {
       return done(err);
     }
-    Workflows.findOne({user: user, name: 'model'}, function (err, workflow) {
+    Users.findOne({email: supportEmail}, function (err, supportUser) {
       if (err) {
         return done(err);
       }
-      Groups.create({
-        user: user,
-        name: 'admin',
-        description: 'serandives.com admin group',
-        workflow: workflow,
-        status: workflow.start,
-        _: {}
-      }, function (err, admin) {
+      Users.findOne({email: talkEmail}, function (err, talkUser) {
         if (err) {
           return done(err);
         }
-        Groups.update({_id: admin._id}, {
-          permissions: [{
-            user: user._id,
-            actions: ['read', 'update', 'delete']
-          }, {
-            group: admin._id,
-            actions: ['read', 'update', 'delete']
-          }],
-          visibility: {
-            '*': {
-              users: [user._id],
-              groups: [admin._id]
-            }
-          }
-        }, function (err) {
+        Workflows.findOne({user: adminUser, name: 'model'}, function (err, workflow) {
           if (err) {
             return done(err);
           }
           Groups.create({
-            user: user,
-            name: 'public',
-            description: 'serandives.com public group',
+            user: adminUser,
+            name: 'admin',
+            description: 'serandives.com admin group',
             workflow: workflow,
             status: workflow.start,
             _: {}
-          }, function (err, pub) {
+          }, function (err, admin) {
             if (err) {
               return done(err);
             }
-            Groups.update({_id: pub._id}, {
+            Groups.update({_id: admin._id}, {
               permissions: [{
-                user: user._id,
+                user: adminUser._id,
                 actions: ['read', 'update', 'delete']
               }, {
                 group: admin._id,
                 actions: ['read', 'update', 'delete']
-              }, {
-                group: pub._id,
-                actions: ['read']
               }],
               visibility: {
                 '*': {
-                  users: [user._id],
+                  users: [adminUser._id],
                   groups: [admin._id]
                 }
               }
@@ -78,63 +56,193 @@ module.exports = function (done) {
                 return done(err);
               }
               Groups.create({
-                user: user,
-                name: 'anonymous',
-                description: 'serandives.com anonymous group',
+                user: adminUser,
+                name: 'support',
+                description: 'serandives.com support group',
                 workflow: workflow,
                 status: workflow.start,
                 _: {}
-              }, function (err, anon) {
+              }, function (err, support) {
                 if (err) {
                   return done(err);
                 }
-                Groups.update({_id: anon._id}, {
+                Groups.update({_id: support._id}, {
                   permissions: [{
-                    user: user._id,
+                    user: supportUser._id,
                     actions: ['read', 'update', 'delete']
                   }, {
                     group: admin._id,
                     actions: ['read', 'update', 'delete']
                   }, {
-                    group: anon._id,
+                    group: support._id,
                     actions: ['read']
                   }],
                   visibility: {
                     '*': {
-                      users: [user._id],
-                      groups: [admin._id]
+                      users: [supportUser._id],
+                      groups: [admin._id, support._id]
                     }
                   }
                 }, function (err) {
                   if (err) {
                     return done(err);
                   }
-                  Users.update({_id: user.id}, {
-                    groups: [admin.id, pub.id],
-                    visibility: {
-                      '*': {
-                        users: [String(user._id)]
-                      },
-                      'alias': {
-                        groups: [anon.id, pub.id]
-                      }
-                    },
-                    permissions: [{
-                      user: user._id,
-                      actions: ['read', 'update', 'delete']
-                    }, {
-                      group: pub._id,
-                      actions: ['read']
-                    }, {
-                      group: anon._id,
-                      actions: ['read']
-                    }]
-                  }, function (err) {
+                  Groups.create({
+                    user: adminUser,
+                    name: 'public',
+                    description: 'serandives.com public group',
+                    workflow: workflow,
+                    status: workflow.start,
+                    _: {}
+                  }, function (err, pub) {
                     if (err) {
                       return done(err);
                     }
-                    log.info('groups:created');
-                    done();
+                    Groups.update({_id: pub._id}, {
+                      permissions: [{
+                        user: adminUser._id,
+                        actions: ['read', 'update', 'delete']
+                      }, {
+                        group: admin._id,
+                        actions: ['read', 'update', 'delete']
+                      }, {
+                        group: pub._id,
+                        actions: ['read']
+                      }],
+                      visibility: {
+                        '*': {
+                          users: [adminUser._id],
+                          groups: [admin._id]
+                        }
+                      }
+                    }, function (err) {
+                      if (err) {
+                        return done(err);
+                      }
+                      Groups.create({
+                        user: adminUser,
+                        name: 'anonymous',
+                        description: 'serandives.com anonymous group',
+                        workflow: workflow,
+                        status: workflow.start,
+                        _: {}
+                      }, function (err, anon) {
+                        if (err) {
+                          return done(err);
+                        }
+                        Groups.update({_id: anon._id}, {
+                          permissions: [{
+                            user: adminUser._id,
+                            actions: ['read', 'update', 'delete']
+                          }, {
+                            group: admin._id,
+                            actions: ['read', 'update', 'delete']
+                          }, {
+                            group: anon._id,
+                            actions: ['read']
+                          }],
+                          visibility: {
+                            '*': {
+                              users: [adminUser._id],
+                              groups: [admin._id]
+                            }
+                          }
+                        }, function (err) {
+                          if (err) {
+                            return done(err);
+                          }
+                          Users.update({_id: adminUser.id}, {
+                            groups: [admin.id, pub.id],
+                            visibility: {
+                              '*': {
+                                users: [adminUser.id]
+                              },
+                              'alias': {
+                                groups: [anon.id, pub.id]
+                              }
+                            },
+                            permissions: [{
+                              user: adminUser._id,
+                              actions: ['read', 'update', 'delete']
+                            }, {
+                              group: pub._id,
+                              actions: ['read']
+                            }, {
+                              group: anon._id,
+                              actions: ['read']
+                            }]
+                          }, function (err) {
+                            if (err) {
+                              return done(err);
+                            }
+                            Users.update({_id: supportUser.id}, {
+                              groups: [support.id, pub.id],
+                              visibility: {
+                                '*': {
+                                  users: [adminUser._id, supportUser.id]
+                                },
+                                'alias': {
+                                  groups: [anon.id, pub.id]
+                                }
+                              },
+                              permissions: [{
+                                group: admin._id,
+                                actions: ['read', 'update', 'delete']
+                              }, {
+                                user: supportUser._id,
+                                actions: ['read', 'update', 'delete']
+                              }, {
+                                group: support._id,
+                                actions: ['read']
+                              }, {
+                                group: pub._id,
+                                actions: ['read']
+                              }, {
+                                group: anon._id,
+                                actions: ['read']
+                              }]
+                            }, function (err) {
+                              if (err) {
+                                return done(err);
+                              }
+                              Users.update({_id: talkUser.id}, {
+                                groups: [support.id, pub.id],
+                                visibility: {
+                                  '*': {
+                                    users: [adminUser._id, talkUser.id]
+                                  },
+                                  'alias': {
+                                    groups: [anon.id, pub.id]
+                                  }
+                                },
+                                permissions: [{
+                                  group: admin._id,
+                                  actions: ['read', 'update', 'delete']
+                                }, {
+                                  user: talkUser._id,
+                                  actions: ['read', 'update', 'delete']
+                                }, {
+                                  group: support._id,
+                                  actions: ['read']
+                                }, {
+                                  group: pub._id,
+                                  actions: ['read']
+                                }, {
+                                  group: anon._id,
+                                  actions: ['read']
+                                }]
+                              }, function (err) {
+                                if (err) {
+                                  return done(err);
+                                }
+                                log.info('groups:created');
+                                done();
+                              });
+                            });
+                          });
+                        });
+                      });
+                    });
                   });
                 });
               });

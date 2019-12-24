@@ -21,7 +21,7 @@ module.exports = function (done) {
         groups: [o.public._id, o.anonymous._id]
       };
       Configs.create({
-        user: o.user,
+        user: o.adminUser,
         name: 'vehicle-makes',
         value: JSON.stringify(makes),
         workflow: o.workflow,

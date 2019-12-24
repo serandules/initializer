@@ -34,7 +34,7 @@ module.exports = function (done) {
           return seriesDone(err);
         }
         Pages.create({
-          user: o.user,
+          user: o.adminUser,
           title: page.title,
           body: data,
           workflow: o.workflow,
@@ -47,7 +47,7 @@ module.exports = function (done) {
             return seriesDone(err);
           }
           Configs.findOne({
-            user: o.user,
+            user: o.adminUser,
             name: 'aliases'
           }, function (err, o) {
             if (err) {

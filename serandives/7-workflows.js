@@ -11,7 +11,7 @@ module.exports = function (done) {
       _id: o.workflow
     }, {
       permissions: [{
-        user: o.user._id,
+        user: o.adminUser._id,
         actions: ['read', 'update', 'delete']
       }, {
         group: o.admin._id,
@@ -19,7 +19,7 @@ module.exports = function (done) {
       }],
       visibility: {
         '*': {
-          users: [o.user._id],
+          users: [o.adminUser._id],
           groups: [o.admin._id]
         }
       }

@@ -33,6 +33,7 @@ var menus = [{
     {url: '/manage-vehicles', title: 'Vehicles'},
     {url: '/manage-realestates', title: 'RealEstates'},
     {url: '/manage-pages', title: 'Pages'},
+    {url: '/manage-messages', title: 'Messages'},
     {url: '/manage-configs', title: 'Configs'}
   ]
 }, {
@@ -102,7 +103,7 @@ module.exports = function (done) {
     }, function (whilstDone) {
       var menu = menus.shift();
       Configs.create({
-        user: o.user,
+        user: o.adminUser,
         name: 'menus-' + menu.name,
         value: JSON.stringify(menu.value),
         workflow: o.workflow,
@@ -122,7 +123,7 @@ module.exports = function (done) {
         return done(err);
       }
       Configs.create({
-        user: o.user,
+        user: o.adminUser,
         name: 'menus',
         value: JSON.stringify(menuz),
         workflow: o.workflow,
