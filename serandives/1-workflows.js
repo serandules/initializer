@@ -83,7 +83,8 @@ var workflowModel = function (user, done) {
         user: {
           actions: ['read', 'delete', 'reject'],
           visibility: ['*']
-        }
+        },
+        hooks: ['verified']
       },
       published: {
         groups: {

@@ -18,7 +18,7 @@ module.exports = function (done) {
       user: o.adminUser,
       name: 'aliases',
       value: JSON.stringify({}),
-      workflow: o.workflow,
+      workflow: o.workflows.model,
       status: 'published',
       permissions: o.permissions,
       visibility: visibility,

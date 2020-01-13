@@ -37,7 +37,7 @@ module.exports = function (done) {
           user: o.adminUser,
           title: page.title,
           body: data,
-          workflow: o.workflow,
+          workflow: o.workflows.model,
           status: 'published',
           permissions: o.permissions,
           visibility: visibility,

@@ -72,7 +72,7 @@ module.exports = function (done) {
       },
       permissions: o.permissions,
       visibility: visibility,
-      workflow: o.workflow,
+      workflow: o.workflows.model,
       status: 'published'
     });
     // groups
@@ -94,7 +94,7 @@ module.exports = function (done) {
       }],
       permissions: o.permissions,
       visibility: visibility,
-      workflow: o.workflow,
+      workflow: o.workflows.model,
       status: 'published'
     });
     // groups
@@ -108,7 +108,7 @@ module.exports = function (done) {
       },
       permissions: o.permissions,
       visibility: visibility,
-      workflow: o.workflow,
+      workflow: o.workflows.model,
       status: 'published'
     });
     async.each(configs, function (config, added) {

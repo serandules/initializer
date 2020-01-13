@@ -8,7 +8,7 @@ var commons = require('../commons');
 var makes = require('../vehicles/makes');
 
 var createModels = function (o, make, models, done) {
-  var workflow = o.workflow;
+  var workflow = o.workflows.model;
   async.eachLimit(models, 10, function (model, modeled) {
     var visibility = o.visibility;
     visibility.make = {
@@ -54,7 +54,7 @@ module.exports = function (done) {
         make.user = o.adminUser;
         make.permissions = o.permissions;
         make.visibility = visibility;
-        make.workflow = o.workflow;
+        make.workflow = o.workflows.model;
         make.status = 'published';
         make._ = {};
         VehicleMakes.create(make, function (err, oo) {

@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var utils = require('utils');
 var Users = require('model-users');
 var Clients = require('model-clients');
@@ -29,7 +30,7 @@ exports.meta = function (done) {
           if (!client) {
             return done('No client with name %s can be found.', domain);
           }
-          Workflows.findOne({user: adminUser, name: 'model'}, function (err, workflow) {
+          Workflows.find({user: adminUser}, function (err, workflows) {
             if (err) {
               return done(err);
             }
@@ -67,7 +68,7 @@ exports.meta = function (done) {
                 client: client,
                 permissions: permissions,
                 visibility: visibility,
-                workflow: workflow,
+                workflows: _.keyBy(workflows, 'name'),
                 admin: groupz.admin,
                 public: groupz.public,
                 anonymous: groupz.anonymous

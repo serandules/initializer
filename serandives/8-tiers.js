@@ -39,8 +39,8 @@ module.exports = function (done) {
           day: 1000
         }
       },
-      workflow: o.workflow,
-      status: o.workflow.start,
+      workflow: o.workflows.model,
+      status: o.workflows.model.start,
       _: {}
     }, function (err, free) {
       if (err) {
@@ -78,8 +78,8 @@ module.exports = function (done) {
             day: 1000
           }
         },
-        workflow: o.workflow,
-        status: o.workflow.start,
+        workflow: o.workflows.model,
+        status: o.workflows.model.start,
         _: {}
       }, function (err, free) {
         if (err) {
@@ -105,8 +105,8 @@ module.exports = function (done) {
               month: Number.MAX_VALUE
             }
           },
-          workflow: o.workflow,
-          status: o.workflow.start,
+          workflow: o.workflows.model,
+          status: o.workflows.model.start,
           _: {}
         }, function (err, admin) {
           if (err) {

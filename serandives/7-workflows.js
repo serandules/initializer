@@ -1,4 +1,5 @@
 var log = require('logger')('initializers:serandives:workflows');
+var _ = require('lodash');
 var Workflows = require('model-workflows');
 var commons = require('../commons');
 
@@ -8,7 +9,9 @@ module.exports = function (done) {
       return done(err);
     }
     Workflows.update({
-      _id: o.workflow
+      _id: {
+        $in: _.map(o.workflows, 'id')
+      }
     }, {
       permissions: [{
         user: o.adminUser._id,
@@ -23,11 +26,11 @@ module.exports = function (done) {
           groups: [o.admin._id]
         }
       }
-    }, function (err, workflow) {
+    }, {multi: true}, function (err) {
       if (err) {
         return done(err);
       }
-      log.info('workflow:updated');
+      log.info('workflows:updated');
       done();
     });
   });
