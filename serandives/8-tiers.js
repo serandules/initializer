@@ -51,13 +51,47 @@ module.exports = function (done) {
         name: 'basic',
         description: 'serandives.com basic tier',
         apis: {
+          contacts: {
+            confirm: {
+              minute: 2,
+              day: 10,
+              month: 30
+            },
+            verify: {
+              minute: 2,
+              day: 10,
+              month: 30
+            }
+          },
           vehicles: {
             find: {
-              second: 100,
+              second: 10,
               day: 10000,
               month: 100000
             },
             create: {
+              second: 1,
+              day: 10,
+              month: 100
+            },
+            bumpup: {
+              second: 1,
+              day: 10,
+              month: 100
+            }
+          },
+          realestates: {
+            find: {
+              second: 10,
+              day: 10000,
+              month: 100000
+            },
+            create: {
+              second: 1,
+              day: 10,
+              month: 100
+            },
+            bumpup: {
               second: 1,
               day: 10,
               month: 100
