@@ -53,7 +53,8 @@ var workflowModel = function (user, done) {
         reject: 'editing'
       },
       published: {
-        unpublish: 'unpublished'
+        unpublish: 'unpublished',
+        bumpup: 'published'
       },
       unpublished: {
         publish: 'published',
@@ -102,7 +103,7 @@ var workflowModel = function (user, done) {
           }
         },
         user: {
-          actions: ['read', 'unpublish'],
+          actions: ['read', 'unpublish', 'bumpup'],
           visibility: ['*']
         }
       },
