@@ -157,7 +157,7 @@ module.exports = function (done) {
                               '*': {
                                 users: [adminUser.id]
                               },
-                              'alias': {
+                              'username': {
                                 groups: [anon.id, pub.id]
                               }
                             },
@@ -181,7 +181,7 @@ module.exports = function (done) {
                                 '*': {
                                   users: [adminUser._id, supportUser.id]
                                 },
-                                'alias': {
+                                'username': {
                                   groups: [anon.id, pub.id]
                                 }
                               },
@@ -211,7 +211,7 @@ module.exports = function (done) {
                                   '*': {
                                     users: [adminUser._id, talkUser.id]
                                   },
-                                  'alias': {
+                                  'username': {
                                     groups: [anon.id, pub.id]
                                   }
                                 },

@@ -19,7 +19,7 @@ module.exports = function (done) {
     var adminUser = {
       email: adminEmail,
       password: encrypted,
-      alias: 'admin',
+      username: 'admin',
       status: 'registered',
       createdAt: new Date(),
       modifiedAt: new Date(),
@@ -46,7 +46,7 @@ module.exports = function (done) {
         var supportUser = {
           email: supportEmail,
           password: encrypted,
-          alias: 'support',
+          username: 'support',
           status: 'registered',
           createdAt: new Date(),
           modifiedAt: new Date(),
@@ -73,7 +73,7 @@ module.exports = function (done) {
             var talkUser = {
               email: talkEmail,
               password: encrypted,
-              alias: 'talk',
+              username: 'talk',
               status: 'registered',
               createdAt: new Date(),
               modifiedAt: new Date(),
