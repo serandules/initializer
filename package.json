@@ -21,6 +21,7 @@
     "model-configs": "serandules/model-configs#master",
     "model-tokens": "serandules/model-tokens#master",
     "model-tiers": "serandules/model-tiers#master",
+    "model-pages": "serandules/model-pages#master",
     "model-workflows": "serandules/model-workflows#master",
     "model-vehicle-makes": "serandules/model-vehicle-makes#master",
     "model-vehicle-models": "serandules/model-vehicle-models#master",
