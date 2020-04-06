@@ -13,7 +13,7 @@ nconf.defaults(require('./env/' + env + '.json'));
 
 var mongourl = nconf.get('MONGODB_URI');
 
-var ssl = (env === 'production');
+var ssl = !!nconf.get('MONGODB_SSL');
 
 mongoose.connect(mongourl, {
     authSource: 'admin',
