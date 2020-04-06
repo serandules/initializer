@@ -1,0 +1,9 @@
+{
+  "DOMAIN": "serandives.com",
+  "SUBDOMAIN": "{subdomain}",
+  "SERVER_PORT": "80",
+  "SERVER_SSL": true,
+  "SPACE": "serandives.com",
+  "CDN_STATICS": "https://d2wwbq608e82yj.cloudfront.net",
+  "CDN_IMAGES": "https://d1vda6a1j3uyzl.cloudfront.net"
+}
