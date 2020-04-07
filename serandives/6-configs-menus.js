@@ -15,8 +15,7 @@ var menus = [{
   name: 'www-affiliates',
   value: [
     {url: 'autos://', title: 'Autos'},
-    {url: 'realestates://', title: 'Real Estates'},
-    {url: 'jobs://', title: 'Jobs'}
+    {url: 'realestates://', title: 'Real Estates'}
   ]
 }, {
   name: 'user',
@@ -40,14 +39,12 @@ var menus = [{
   name: 'accounts-affiliates',
   value: [
     {url: 'autos://', title: 'Autos'},
-    {url: 'realestates://', title: 'Real Estates'},
-    {url: 'jobs://', title: 'Jobs'}
+    {url: 'realestates://', title: 'Real Estates'}
   ]
 }, {
   name: 'autos-affiliates',
   value: [
-    {url: 'realestates://', title: 'Real Estates'},
-    {url: 'jobs://', title: 'Jobs'}
+    {url: 'realestates://', title: 'Real Estates'}
   ]
 }, {
   name: 'autos-primary',
@@ -63,8 +60,7 @@ var menus = [{
 }, {
   name: 'realestates-affiliates',
   value: [
-    {url: 'autos://', title: 'Autos'},
-    {url: 'jobs://', title: 'Jobs'}
+    {url: 'autos://', title: 'Autos'}
   ]
 }, {
   name: 'realestates-primary',
@@ -76,12 +72,6 @@ var menus = [{
   value: [
     {url: '/create-realestates', title: 'Add'},
     {url: '/mine', title: 'My Real Estates'}
-  ]
-}, {
-  name: 'jobs-affiliates',
-  value: [
-    {url: 'autos://', title: 'Autos'},
-    {url: 'realestates://', title: 'Real Estates'}
   ]
 }];
 
