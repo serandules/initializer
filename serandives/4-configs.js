@@ -61,8 +61,13 @@ module.exports = function (done) {
       name: 'boot',
       value: {
         clients: {
-          facebook: facebookId,
-          serandives: serandivesId
+          facebook: {
+            id: facebookId,
+            login: nconf.get('FACEBOOK_LOGIN_URI')
+          },
+          serandives: {
+            id: serandivesId
+          }
         },
         googleKey: googleKey,
         cdns: {

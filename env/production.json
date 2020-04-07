@@ -5,5 +5,8 @@
   "SERVER_SSL": true,
   "SPACE": "serandives.com",
   "CDN_STATICS": "https://d2wwbq608e82yj.cloudfront.net",
-  "CDN_IMAGES": "https://d1vda6a1j3uyzl.cloudfront.net"
+  "CDN_IMAGES": "https://d1vda6a1j3uyzl.cloudfront.net",
+  "FACEBOOK_TOKEN_URI": "https://graph.facebook.com/v2.3/oauth/access_token",
+  "FACEBOOK_PROFILE_URI": "https://graph.facebook.com/me",
+  "FACEBOOK_LOGIN_URI": "https://www.facebook.com/dialog/oauth"
 }
