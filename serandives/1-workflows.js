@@ -84,8 +84,7 @@ var workflowModel = function (user, done) {
         user: {
           actions: ['read', 'delete', 'reject'],
           visibility: ['*']
-        },
-        hooks: ['verified']
+        }
       },
       published: {
         groups: {
@@ -119,7 +118,9 @@ var workflowModel = function (user, done) {
           visibility: ['*']
         }
       }
-    }
+    },
+    visibility: {},
+    permissions: {}
   }, done);
 };
 
@@ -186,7 +187,9 @@ var workflowModelUsers = function (user, done) {
           visibility: ['*']
         }
       }
-    }
+    },
+    visibility: {},
+    permissions: {}
   }, done);
 };
 
@@ -237,7 +240,9 @@ var workflowModelClients = function (user, done) {
           visibility: ['*']
         }
       }
-    }
+    },
+    visibility: {},
+    permissions: {}
   }, done);
 };
 
@@ -296,6 +301,8 @@ var workflowModelMessages = function (user, done) {
           visibility: ['*']
         }
       }
-    }
+    },
+    visibility: {},
+    permissions: {}
   }, done);
 };

@@ -32,6 +32,8 @@ module.exports = function (done) {
             description: 'serandives.com admin group',
             workflow: workflow,
             status: workflow.start,
+            visibility: {},
+            permissions: {},
             _: {}
           }, function (err, admin) {
             if (err) {
@@ -61,6 +63,8 @@ module.exports = function (done) {
                 description: 'serandives.com support group',
                 workflow: workflow,
                 status: workflow.start,
+                visibility: {},
+                permissions: {},
                 _: {}
               }, function (err, support) {
                 if (err) {
@@ -93,6 +97,8 @@ module.exports = function (done) {
                     description: 'serandives.com public group',
                     workflow: workflow,
                     status: workflow.start,
+                    visibility: {},
+                    permissions: {},
                     _: {}
                   }, function (err, pub) {
                     if (err) {
@@ -125,6 +131,8 @@ module.exports = function (done) {
                         description: 'serandives.com anonymous group',
                         workflow: workflow,
                         status: workflow.start,
+                        visibility: {},
+                        permissions: {},
                         _: {}
                       }, function (err, anon) {
                         if (err) {

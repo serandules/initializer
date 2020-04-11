@@ -41,6 +41,8 @@ module.exports = function (done) {
       },
       workflow: o.workflows.model,
       status: o.workflows.model.start,
+      visibility: {},
+      permissions: {},
       _: {}
     }, function (err, free) {
       if (err) {
@@ -114,6 +116,8 @@ module.exports = function (done) {
         },
         workflow: o.workflows.model,
         status: o.workflows.model.start,
+        visibility: {},
+        permissions: {},
         _: {}
       }, function (err, free) {
         if (err) {
@@ -141,6 +145,8 @@ module.exports = function (done) {
           },
           workflow: o.workflows.model,
           status: o.workflows.model.start,
+          visibility: {},
+          permissions: {},
           _: {}
         }, function (err, admin) {
           if (err) {

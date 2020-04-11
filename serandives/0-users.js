@@ -23,6 +23,8 @@ module.exports = function (done) {
       status: 'registered',
       createdAt: new Date(),
       modifiedAt: new Date(),
+      visibility: {},
+      permissions: {},
       _: {}
     };
     Users.create(adminUser, function (err, adminUser) {
@@ -50,6 +52,8 @@ module.exports = function (done) {
           status: 'registered',
           createdAt: new Date(),
           modifiedAt: new Date(),
+          visibility: {},
+          permissions: {},
           _: {}
         };
         Users.create(supportUser, function (err, supportUser) {
@@ -77,6 +81,8 @@ module.exports = function (done) {
               status: 'registered',
               createdAt: new Date(),
               modifiedAt: new Date(),
+              visibility: {},
+              permissions: {},
               _: {}
             };
             Users.create(talkUser, function (err, talkUser) {
