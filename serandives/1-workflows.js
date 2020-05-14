@@ -148,6 +148,14 @@ var workflowModelUsers = function (user, done) {
           admin: {
             actions: ['*'],
             visibility: ['*']
+          },
+          public: {
+            actions: ['read'],
+            visibility: ['id', 'username', 'avatar']
+          },
+          anonymous: {
+            actions: ['read'],
+            visibility: ['id', 'username', 'avatar']
           }
         },
         user: {
@@ -180,6 +188,14 @@ var workflowModelUsers = function (user, done) {
           admin: {
             actions: ['*', 'unblock'],
             visibility: ['*']
+          },
+          public: {
+            actions: ['read'],
+            visibility: ['id', 'username', 'avatar']
+          },
+          anonymous: {
+            actions: ['read'],
+            visibility: ['id', 'username', 'avatar']
           }
         },
         user: {
