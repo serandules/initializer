@@ -1,6 +1,7 @@
 var log = require('logger')('initializers:serandives:workflows');
 var _ = require('lodash');
-var Workflows = require('model-workflows');
+var utils = require('utils');
+var Workflows = utils.model('workflows');
 var commons = require('../commons');
 
 module.exports = function (done) {

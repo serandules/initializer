@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var fs = require('fs');
 
 var utils = require('utils');
-var Config = require('model-configs');
+var Config = utils.model('configs');
 
 var env = utils.env();
 

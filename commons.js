@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var utils = require('utils');
-var Users = require('model-users');
-var Clients = require('model-clients');
-var Groups = require('model-groups');
-var Workflows = require('model-workflows');
+var Users = utils.model('users');
+var Clients = utils.model('clients');
+var Groups = utils.model('groups');
+var Workflows = utils.model('workflows');
 
 var adminUser = utils.adminEmail();
 var supportUser = utils.supportEmail();

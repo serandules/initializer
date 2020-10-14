@@ -1,5 +1,6 @@
 var log = require('logger')('initializers:serandives:tiers');
-var Tiers = require('model-tiers');
+var utils = require('utils');
+var Tiers = utils.model('tiers');
 var commons = require('../commons');
 
 module.exports = function (done) {

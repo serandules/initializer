@@ -1,6 +1,7 @@
 var log = require('logger')('initializers:serandives:configs-vehicles');
 var _ = require('lodash');
-var Configs = require('model-configs');
+var utils = require('utils');
+var Configs = utils.model('configs');
 var vutils = require('vehicle-utils');
 var commons = require('../commons');
 

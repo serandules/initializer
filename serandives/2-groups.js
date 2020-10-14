@@ -1,9 +1,9 @@
 var log = require('logger')('initializers:serandives:groups');
 
 var utils = require('utils');
-var Users = require('model-users');
-var Groups = require('model-groups');
-var Workflows = require('model-workflows');
+var Users = utils.model('users');
+var Groups = utils.model('groups');
+var Workflows = utils.model('workflows');
 
 var adminEmail = utils.adminEmail();
 var supportEmail = utils.supportEmail();
