@@ -1,9 +1,9 @@
 var log = require('logger')('initializers:serandives:makes');
 var async = require('async');
-var utils = require('utils');
 
-var VehicleMakes = utils.model('vehicle-makes');
-var VehicleModels = utils.model('vehicle-models');
+var models = require('models');
+var VehicleMakes = models.model('vehicle-makes');
+var VehicleModels = models.model('vehicle-models');
 var commons = require('../commons');
 
 var makes = require('../vehicles/makes');

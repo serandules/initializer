@@ -1,7 +1,9 @@
 var log = require('logger')('initializers:serandives:users');
 var nconf = require('nconf');
 var utils = require('utils');
-var Users = utils.model('users');
+
+var models = require('models');
+var Users = models.model('users');
 
 var adminEmail = utils.adminEmail();
 var supportEmail = utils.supportEmail();

@@ -1,7 +1,9 @@
 var log = require('logger')('initializers:serandives:menus');
 var utils = require('utils');
-var Configs = utils.model('configs');
-var Pages = utils.model('pages');
+
+var models = require('models');
+var Configs = models.model('configs');
+var Pages = models.model('pages');
 var commons = require('../commons');
 
 var async = require('async');

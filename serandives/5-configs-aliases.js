@@ -1,6 +1,7 @@
 var log = require('logger')('initializers:serandives:configs-aliases');
-var utils = require('utils');
-var Configs = utils.model('configs');
+
+var models = require('models');
+var Configs = models.model('configs');
 var commons = require('../commons');
 
 module.exports = function (done) {

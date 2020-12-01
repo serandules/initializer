@@ -2,8 +2,9 @@ var log = require('logger')('initializers:serandives:configs');
 var _ = require('lodash');
 var nconf = require('nconf');
 var async = require('async');
-var utils = require('utils');
-var Configs = utils.model('configs');
+
+var models = require('models');
+var Configs = models.model('configs');
 var commons = require('../commons');
 
 var create = function (user, config, added) {
